@@ -1,0 +1,56 @@
+.banner_button {
+    display: inline-block;
+}
+
+.list_button, .banner_button {
+    background-color: bisque;
+    width: fit-content;
+}
+
+.alarm {
+    background-color: red;
+    width: fit-content;
+}
+
+.banner_button:hover, .list_button:hover, .alarm:hover {
+    cursor:pointer;
+}
+
+.login_window {
+    background-color: aquamarine;
+    width: 190px;
+}
+
+.input_waiting {
+    border: 3px solid dimgrey;
+}
+
+.input_valid {
+    border: 3px solid lawngreen;
+}
+
+.input_invalid {
+    border: 3px solid red;
+}
+
+.input_checker_text {
+    display: block;
+    font-size: xx-small;
+}
+
+#map {
+    width: 1200px;
+    height: 570px;
+    margin: 0;
+}
+
+.doctor_card {
+    background-color: #ffd1a6;
+    border: 1px solid #c28b57;
+}
+
+.spec_border {
+    border-radius: 10px;
+    background-color: #a9a9ff;
+    border: 1px solid #5e5eda;
+}

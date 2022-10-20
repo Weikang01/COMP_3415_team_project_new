@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <title>Resident Login</title>
+    <link rel="stylesheet" href="static/css/login_pages.css">
+    <script src="static/js/jquery-3.6.1.min.js"></script>
+</head>
+<body>
+    <div class="login_window" id="res_login">
+        <h2>Resident Login</h2>
+        <span class="input_checker_text" id="username_text"
+              th:style="'display:' + @{(${session.invalid_input} == null ? 'none' : 'inline-block')} + ''"
+              th:text="@{${session.invalid_input} == null? '' : 'Username and/or password are incorrect'}">
+        </span>
+        <form th:action="@{/res_login}" method="post">
+            username: <label>
+            <input type="text" name="username" id="username"
+                   th:classappend="@{${session.invalid_input} == null? '' : 'input_invalid'}" >
+        </label>
+            password: <label>
+            <input type="password" name="password" id="password"
+                   th:classappend="@{${session.invalid_input} == null? '' : 'input_invalid'}" >
+        </label>
+            <input type="submit" value="ok">
+        </form>
+        <a th:href="@{/welcome}">back to welcome</a>
+    </div>
+</body>
+</html>

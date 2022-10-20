@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <title>Doctor Registration</title>
+  <link rel="stylesheet" href="static/css/login_pages.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+        crossorigin>
+  <script src="static/js/jquery-3.6.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+          integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+          crossorigin></script>
+
+  <script src="static/js/doc_reg.js"></script>
+</head>
+<body>
+<table>
+  <tr>
+    <td>
+      <div class="login_window">
+        <h2 style="margin-top: 0">Doctor Registration</h2>
+        <form th:action="@{/doc_reg}" method="post">
+          <label for="username">
+            username:
+            <span class="input_checker_text" id="username_text"></span>
+            <input type="text" name="username" id="username">
+          </label>
+          <label for="password">
+            password:
+            <span class="input_checker_text" id="password_text"></span>
+            <input type="password" name="password" id="password">
+          </label>
+          <label for="confirm_password">
+            confirm your password:
+            <span class="input_checker_text" id="confirm_password_text"></span>
+            <input type="password" id="confirm_password">
+          </label>
+          <label for="firstname">
+            first name:
+            <span class="input_checker_text" id="firstname_text"></span>
+            <input type="text" name="firstname" id="firstname">
+          </label>
+          <label for="lastname">
+            last name:
+            <span class="input_checker_text" id="lastname_text"></span>
+            <input type="text" name="lastname" id="lastname">
+          </label>
+          <label for="hospital_id">
+            hospital:
+            <span class="input_checker_text" id="hospital_id_text"></span>
+            <select id="hospital_id" name="hospital_id" style="width: 100%">
+              <option th:each="hospital : ${session.hospitals}" th:value="${hospital.id}" th:text="${hospital.name}"></option>
+            </select>
+          </label>
+          <span id="specialties_span">specialties <a href="javascript:void(0)" id="add_specialty">add</a> <a href="javascript:void(0)" id="del_specialty">remove</a> :</span>
+          <label for="specialty1_id" id="specialty1_id_label">
+            <select id="specialty1_id" name="specialty1_id" style="width: 100%">
+              <option th:each="specialty : ${session.specialties}" th:value="${specialty.id}" th:text="${specialty.name}"></option>
+            </select>
+          </label>
+          <label for="specialty2_id" id="specialty2_id_label">
+            <select id="specialty2_id" name="specialty2_id" style="width: 100%">
+              <option th:each="specialty : ${session.specialties}" th:value="${specialty.id}" th:text="${specialty.name}"></option>
+            </select>
+          </label>
+          <label for="specialty3_id" id="specialty3_id_label">
+            <select id="specialty3_id" name="specialty3_id" style="width: 100%">
+              <option th:each="specialty : ${session.specialties}" th:value="${specialty.id}" th:text="${specialty.name}"></option>
+            </select>
+          </label>
+          <label for="specialty4_id" id="specialty4_id_label">
+            <select id="specialty4_id" name="specialty4_id" style="width: 100%">
+              <option th:each="specialty : ${session.specialties}" th:value="${specialty.id}" th:text="${specialty.name}"></option>
+            </select>
+          </label>
+          <label for="specialty5_id"  id="specialty5_id_label">
+            <select id="specialty5_id" name="specialty5_id" style="width: 100%">
+              <option th:each="specialty : ${session.specialties}" th:value="${specialty.id}" th:text="${specialty.name}"></option>
+            </select>
+          </label>
+          <label for="address" style="width: 100%">
+            address:
+            <span class="input_checker_text" id="address_text"></span>
+            <input type="text" name="address" id="address">
+          </label>
+          <label for="latitude">
+            latitude:
+            <input type="hidden" name="latitude" id="latitude" value="48.4210658">
+            <input type="text" name="_latitude" id="_latitude" disabled value="48.4210658">
+          </label>
+          <label for="longitude">
+            longitude:
+            <input type="hidden" name="longitude" id="longitude" value="-89.2622423">
+            <input type="text" name="_longitude" id="_longitude" disabled value="-89.2622423">
+          </label>
+          <label for="tel">
+            tel:
+            <span class="input_checker_text" id="tel_text"></span>
+            <input type="tel" name="tel" id="tel">
+          </label>
+          <input type="submit" id="submit" value="ok">
+        </form>
+        <a th:href="@{/welcome}">back to welcome</a>
+      </div>
+    </td>
+    <td>
+      <div id="map"></div>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <title>Telemedicine System</title>
+    <link rel="stylesheet" href="static/css/login_pages.css">
+    <script src="static/js/jquery-3.6.1.min.js"></script>
+    <script src="static/js/online_checker.js"></script>
+    <script src="static/js/res_main.js"></script>
+</head>
+<body>
+    <input type="hidden" id="resident_username_holder" th:value="${session.resident.getUsername()}">
+  <table>
+    <tr>
+        <td style="vertical-align: top">
+            <h1>
+                Hi, <span th:text="${session.resident.getFirstname()}"></span>
+            </h1>
+            <div th:text="${session.resident.getAddress()}">
+            </div>
+            <div class="list_button">
+                edit my info
+            </div>
+            <div class="list_button">
+                online health consultation
+            </div>
+            <div class="list_button">
+                health monitoring
+            </div>
+            <div class="list_button">
+                door-to-door medical service
+            </div>
+            <div class="alarm">
+                ALARM
+            </div>
+        </td>
+        <td style="background: cornsilk">
+            <h1>
+                Doctors Around Me
+            </h1>
+            <div>
+                <div class="doctor_card" th:each="doctor, iStat : ${session.doctorsNearby}">
+                    <h3><span th:text="${doctor.getFirstname()}"></span> <span th:text="${doctor.getLastname()}"></span></h3>
+                    <div>Specialty:
+                        <span class="spec_border" th:text="${doctor.getSpecialty1()}" th:style="'display:'+${doctor.getSpecialty1_id() != 0? 'inline':'none'}" ></span>
+                        <span class="spec_border" th:text="${doctor.getSpecialty2()}" th:style="'display:'+${doctor.getSpecialty2_id() != 0? 'inline':'none'}" ></span>
+                        <span class="spec_border" th:text="${doctor.getSpecialty3()}" th:style="'display:'+${doctor.getSpecialty3_id() != 0? 'inline':'none'}" ></span>
+                        <span class="spec_border" th:text="${doctor.getSpecialty4()}" th:style="'display:'+${doctor.getSpecialty4_id() != 0? 'inline':'none'}" ></span>
+                        <span class="spec_border" th:text="${doctor.getSpecialty5()}" th:style="'display:'+${doctor.getSpecialty5_id() != 0? 'inline':'none'}" ></span>
+                    </div>
+                    <div>Organization: <span th:text="${doctor.getHospital()}"></span></div>
+                    <div>Distance: <span th:text="${doctor.getDistance()}"></span> km</div>
+                    <div>Status: <span th:text="${session.doctorsOnlineStatus[iStat.index] ? 'online' : 'offline'}"></span> </div>
+                    <div class="consult_button" style="background: aquamarine">
+                        <input type="hidden" name="doctor_id" th:value="${doctor.getId()}">
+                        Consult Online!</div>
+                    <div style="background: darkturquoise">Book a door-to-door service</div>
+                </div>
+            </div>
+        </td>
+        <td style="background: gainsboro; vertical-align: top">
+            <h1>Describe my symptom</h1>
+            <form th:action="@{/symptom_search}" method="get">
+                <input type="text" name="symptoms" id="symptoms">
+                <input type="submit" value="search">
+            </form>
+        </td>
+    </tr>
+  </table>
+</body>
+</html>

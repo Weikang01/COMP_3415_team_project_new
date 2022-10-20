@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <title>Resident Registration</title>
+  <link rel="stylesheet" href="static/css/login_pages.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+        crossorigin>
+<!--  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>-->
+  <script src="static/js/jquery-3.6.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+          integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+          crossorigin></script>
+<!--  <script src="https://unpkg.com/esri-leaflet-geocoder"></script>-->
+
+  <script src="static/js/res_reg.js"></script>
+</head>
+<body>
+<table>
+  <tr>
+    <td>
+      <div class="login_window">
+        <h2 style="margin-top: 0">Resident Registration</h2>
+        <form th:action="@{/res_reg}" method="post">
+          <label for="username">
+            username:
+            <span class="input_checker_text" id="username_text"></span>
+            <input type="text" name="username" id="username">
+          </label>
+          <label for="password">
+            password:
+            <span class="input_checker_text" id="password_text"></span>
+            <input type="password" name="password" id="password">
+          </label>
+          <label for="confirm_password">
+            confirm your password:
+            <span class="input_checker_text" id="confirm_password_text"></span>
+            <input type="password" id="confirm_password">
+          </label>
+          <label for="firstname">
+            first name:
+            <span class="input_checker_text" id="firstname_text"></span>
+            <input type="text" name="firstname" id="firstname">
+          </label>
+          <label for="lastname">
+            last name:
+            <span class="input_checker_text" id="lastname_text"></span>
+            <input type="text" name="lastname" id="lastname">
+          </label>
+          <label for="gender">
+            gender:
+            <span class="input_checker_text" id="gender_text"></span>
+            <select id="gender" name="gender" style="width: 100%">
+              <option th:each="gender, iStat : ${session.genders}" th:value="${iStat.index} + 1" th:text="${gender}"></option>
+            </select>
+          </label>
+          <label for="birthdate">
+            birth date:
+            <span class="input_checker_text" id="birthdate_text"></span>
+            <input type="date" name="birthdate" id="birthdate" style="width: 100%">
+          </label>
+          <label for="address">
+            address:
+            <span class="input_checker_text" id="address_text"></span>
+            <input type="text" name="address" id="address">
+          </label>
+          <label for="latitude">
+            latitude:
+            <input type="hidden" name="latitude" id="latitude" value="48.4210658">
+            <input type="text" name="_latitude" id="_latitude" disabled value="48.4210658">
+          </label>
+          <label for="longitude">
+            longitude:
+            <input type="hidden" name="longitude" id="longitude" value="-89.2622423">
+            <input type="text" name="_longitude" id="_longitude" disabled value="-89.2622423">
+          </label>
+          <label for="tel">
+            tel:
+            <span class="input_checker_text" id="tel_text"></span>
+            <input type="tel" name="tel" id="tel">
+          </label>
+          <input type="submit" id="submit" value="ok">
+        </form>
+        <a th:href="@{/welcome}">back to welcome</a>
+      </div>
+    </td>
+    <td>
+      <div id="map"></div>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
