@@ -3,7 +3,7 @@ package com.servlet;
 import com.bean.Resident;
 import com.dao.ResidentDAO;
 import com.dao.impl.ResidentDAOImpl;
-import com.logic.OnlineStatusLogic;
+//import com.logic.OnlineStatusLogic;
 import com.springmvc.ViewBaseServlet;
 
 import javax.servlet.ServletException;
@@ -32,7 +32,7 @@ public class ResLoginServlet extends ViewBaseServlet {
             HttpSession session = req.getSession(true);
             session.setAttribute("resident", resident);
 
-            OnlineStatusLogic.userLogin(Resident.class, username);
+//            OnlineStatusLogic.userLogin(Resident.class, username);
             resp.sendRedirect("res.home");
         } else {
             HttpSession session = req.getSession(true);

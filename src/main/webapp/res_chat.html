@@ -4,40 +4,27 @@
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
   <link rel="stylesheet" href="static/css/chat_window.css">
+  <script src="static/js/jquery-3.6.1.min.js"></script>
+  <script src="static/js/chat_window.js"></script>
   <title>Chat Window</title>
 </head>
 <body>
 <div class='container' ng-cloak ng-app="chatApp">
   <div class='chatbox' ng-controller="MessageCtrl as chatMessage">
     <div class='chatbox__user-list'>
-      <h1>User list</h1>
-      <div class='chatbox__user--active'>
-        <p>Jack Thomson</p>
-      </div>
-      <div class='chatbox__user--busy'>
-        <p>Angelina Jolie</p>
-      </div>
-      <div class='chatbox__user--active'>
-        <p>George Clooney</p>
-      </div>
-      <div class='chatbox__user--active'>
-        <p>Seth Rogen</p>
-      </div>
-      <div class='chatbox__user--away'>
-        <p>John Lydon</p>
-      </div>
+      <h1 th:text="'Dr. ' + ${session.cur_doctor.getFirstname()} + ' ' + ${session.cur_doctor.getLastname()}"></h1>
     </div>
     <div class="chatbox__messages" ng-repeat="message in messages">
       <div class="chatbox__messages__user-message">
         <div class="chatbox__messages__user-message--ind-message">
-          <p class="name">{{message.Name}}</p>
+          <p class="name"></p>
           <br/>
-          <p class="message">{{message.Message}}</p>
+<!--          <p class="message">{{message.Message}}</p>-->
         </div>
       </div>
     </div>
     <form>
-      <input type="text" placeholder="Enter your message">
+      <input type="text" placeholder="Enter your message" id="message_box">
     </form>
   </div>
 </body>

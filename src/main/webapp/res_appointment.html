@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment</title>
+</head>
+<body>
+<form th:action="@{/make_appointment}" method="post">
+  <input type="date" name="date" id="date">
+    <input type="text" name="hour" id="hour">
+    <input type="text" name="min" id="min">
+    <input type="submit" value="ok">
+</form>
+</body>
+</html>

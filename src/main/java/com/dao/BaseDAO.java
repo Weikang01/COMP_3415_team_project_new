@@ -2,6 +2,7 @@ package com.dao;
 
 import com.utils.JDBCUtils;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
@@ -105,10 +106,11 @@ public abstract class BaseDAO {
         return objects;
     }
 
-    public <E> E getValue( Connection connection, String sql, Object ...args) {
+    public <E> E getValue( String sql, Object ...args) {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
+            connection = JDBCUtils.getConnection();
             ps = connection.prepareStatement(sql);
             for (int i = 0; i < args.length; i++) {
                 ps.setObject(i + 1, args[i]);
@@ -118,8 +120,8 @@ public abstract class BaseDAO {
             if (rs.next()) {
                 return (E) rs.getObject(1);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             JDBCUtils.closeStatement(ps);
             JDBCUtils.closeResultSet(rs);

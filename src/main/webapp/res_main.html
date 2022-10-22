@@ -19,20 +19,20 @@
             </h1>
             <div th:text="${session.resident.getAddress()}">
             </div>
-            <div class="list_button">
+            <div id="edit_info" class="list_button">
                 edit my info
             </div>
-            <div class="list_button">
-                online health consultation
-            </div>
-            <div class="list_button">
+            <div id="health_monitor" class="list_button">
                 health monitoring
             </div>
-            <div class="list_button">
-                door-to-door medical service
+            <div id="list_appointment" class="list_button">
+                check my appointments
             </div>
             <div class="alarm">
                 ALARM
+            </div>
+            <div id="logout" class="list_button">
+                logout
             </div>
         </td>
         <td style="background: cornsilk">
@@ -40,7 +40,7 @@
                 Doctors Around Me
             </h1>
             <div>
-                <div class="doctor_card" th:each="doctor, iStat : ${session.doctorsNearby}">
+                <div class="doctor_card" th:each="doctor, iStat : ${session.doctorsNearby}" th:id="${doctor.getId()}">
                     <h3><span th:text="${doctor.getFirstname()}"></span> <span th:text="${doctor.getLastname()}"></span></h3>
                     <div>Specialty:
                         <span class="spec_border" th:text="${doctor.getSpecialty1()}" th:style="'display:'+${doctor.getSpecialty1_id() != 0? 'inline':'none'}" ></span>
@@ -55,7 +55,7 @@
                     <div class="consult_button" style="background: aquamarine">
                         <input type="hidden" name="doctor_id" th:value="${doctor.getId()}">
                         Consult Online!</div>
-                    <div style="background: darkturquoise">Book a door-to-door service</div>
+                    <div style="background: darkturquoise" class="appointment_button">Make an Appointment</div>
                 </div>
             </div>
         </td>

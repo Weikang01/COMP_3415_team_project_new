@@ -1,6 +1,7 @@
 package com.bean;
 
 public class Disease{
+
     private int id;
     private String name;
     private String desc;

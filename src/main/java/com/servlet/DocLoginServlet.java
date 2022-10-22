@@ -3,7 +3,7 @@ package com.servlet;
 import com.bean.Doctor;
 import com.dao.DoctorDAO;
 import com.dao.impl.DoctorDAOImpl;
-import com.logic.OnlineStatusLogic;
+//import com.logic.OnlineStatusLogic;
 import com.springmvc.ViewBaseServlet;
 
 import javax.servlet.ServletException;
@@ -32,7 +32,7 @@ public class DocLoginServlet extends ViewBaseServlet {
             HttpSession session = req.getSession(true);
             session.setAttribute("doctor", doctor);
 
-            OnlineStatusLogic.userLogin(Doctor.class, doctor.getUsername());
+//            OnlineStatusLogic.userLogin(Doctor.class, doctor.getUsername());
             resp.sendRedirect("doc.home");
         } else {
             HttpSession session = req.getSession(true);

@@ -10,7 +10,7 @@ import com.dao.SpecialtyDAO;
 import com.dao.impl.DoctorDAOImpl;
 import com.dao.impl.HospitalDAOImpl;
 import com.dao.impl.SpecialtyDAOImpl;
-import com.logic.OnlineStatusLogic;
+//import com.logic.OnlineStatusLogic;
 import com.springmvc.ViewBaseServlet;
 
 import javax.servlet.ServletException;
@@ -84,7 +84,7 @@ public class DocRegServlet extends ViewBaseServlet {
 
         req.getSession().setAttribute("doctor", doctor);
 
-        OnlineStatusLogic.userLogin(Doctor.class, doctor.getUsername());
+//        OnlineStatusLogic.userLogin(Doctor.class, doctor.getUsername());
         resp.sendRedirect("doc.home");
     }
 }

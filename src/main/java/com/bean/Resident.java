@@ -11,6 +11,22 @@ import java.util.Date;
 
 public class Resident{
 
+    /**
+- int id;
+- String username;
+- String password;
+- String firstname;
+- String lastname;
+- int gender;
+- String address;
+- double latitude;
+- double longitude;
+- String tel;
+- Date birthdate;
+- boolean is_active;
+- double distance;
+    */
+
     private int id;
     private String username;
     private String password;
