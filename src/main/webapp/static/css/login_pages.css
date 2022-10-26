@@ -54,3 +54,91 @@
     background-color: #a9a9ff;
     border: 1px solid #5e5eda;
 }
+
+/* For Welcome Page */
+
+html, body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+/* NavBar */
+
+.navBar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: none;
+    padding: none;
+    height: 70px;
+    background: #272727;
+}
+
+
+.Nav_Buttons a{
+    margin: 10px;
+    color: #f6f4e6;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: 500;
+    width: 50px;
+    transition: all 0.2s ease-in-out;
+}
+
+.Nav_Buttons a:hover {
+    color: #fddb3a;
+  }
+
+  /* Hero Container */
+
+  .hero{
+    display:flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+    height: 750px;
+    background: url("./Hero-image.jpg") center/cover;
+  }
+  
+  .hero--div{
+    font-family: 'Inter', sans-serif;
+    background-color: rgb(230, 230, 253);
+    width:40%;
+    height: 50%;
+    border-radius: 10px;
+    padding: 30px;
+    margin-right: 60px;
+  }
+  
+  .hero--arrival{
+    font-size: 1em;
+    font-weight: 500;
+    letter-spacing: 2.6px;
+    margin-bottom: 30px;
+    margin-left: 10px;
+  }
+  
+  .hero--heading{
+    font-size: 3.5vw;
+    color: rgb(46, 63, 160);
+    padding-right: 150px;
+    margin-top: 15px;
+    margin-bottom: 0;
+  }
+  
+  .hero--text{
+    line-height: 35px;
+    font-size: 1.5vw;
+    font-weight: 500;
+  }
+  
+  .hero--button{
+    background-color: rgb(46, 63, 160);
+    color: white;
+    font-weight: 600;
+    font-size: 1.4vw;
+    padding: 20px;
+    margin: none;
+    border-radius: 30px;
+    text-decoration: none;
+  }
