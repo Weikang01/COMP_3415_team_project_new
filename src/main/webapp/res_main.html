@@ -11,6 +11,7 @@
 </head>
 <body>
     <input type="hidden" id="resident_username_holder" th:value="${session.resident.getUsername()}">
+    <input type="hidden" id="resident_id_holder" th:value="${session.resident.getId()}">
   <table>
     <tr>
         <td style="vertical-align: top">
@@ -55,7 +56,9 @@
                     <div class="consult_button" style="background: aquamarine">
                         <input type="hidden" name="doctor_id" th:value="${doctor.getId()}">
                         Consult Online!</div>
-                    <div style="background: darkturquoise" class="appointment_button">Make an Appointment</div>
+                    <div style="background: darkturquoise" class="appointment_button">
+                        <input type="hidden" name="doctor_id" th:value="${doctor.getId()}">
+                        Make an Appointment</div>
                 </div>
             </div>
         </td>

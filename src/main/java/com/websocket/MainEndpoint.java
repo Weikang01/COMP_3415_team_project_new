@@ -14,33 +14,35 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @ServerEndpoint(value = "/main", configurator = GetHttpSessionConfigurator.class)
 public class MainEndpoint {
-    private static final ConcurrentHashMap<String, MainEndpoint> onlineResidents = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, Resident> onlineResidentsInfo = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, MainEndpoint> onlineDoctors = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<String, Doctor> onlineDoctorsInfo = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, MainEndpoint> onlineResidents = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, Resident> onlineResidentsInfo = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, MainEndpoint> onlineDoctors = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, Doctor> onlineDoctorsInfo = new ConcurrentHashMap<>();
     private Session session;
     private HttpSession httpSession;
     private boolean is_resident;
-    private String username;
+    private int id;
 
-    private Set<String> getNames() {
+    private Set<Integer> getResidentNames() {
         return onlineResidents.keySet();
     }
-
-    private void broadcastAllUsers(String message) {
-        if (is_resident) {
-            _broadcastAllUsers(message, onlineResidents);
-        } else {
-            _broadcastAllUsers(message, onlineDoctors);
-        }
-
+    private Set<Integer> getDoctorNames() {
+        return onlineDoctors.keySet();
     }
 
-    private void _broadcastAllUsers(String message, ConcurrentHashMap<String, MainEndpoint> onlineDoctors) {
+    private void broadcastAllDoctors(String message) {
+        _broadcastAll(message, onlineDoctors);
+
+    }
+    private void broadcastAllResidents(String message) {
+        _broadcastAll(message, onlineResidents);
+    }
+
+    private void _broadcastAll(String message, ConcurrentHashMap<Integer, MainEndpoint> onlineUsers) {
         try {
-            Set<String> names = onlineDoctors.keySet();
-            for (String name : names) {
-                MainEndpoint mainEndpoint = onlineDoctors.get(name);
+            Set<Integer> ids = onlineUsers.keySet();
+            for (int name : ids) {
+                MainEndpoint mainEndpoint = onlineUsers.get(name);
                 mainEndpoint.session.getBasicRemote().sendText(message);
             }
         } catch (Exception e) {
@@ -54,30 +56,46 @@ public class MainEndpoint {
         this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         Object obj_res = this.httpSession.getAttribute("resident");
         if (obj_res != null) {
+            System.out.println("A resident logged in");
             Resident resident = (Resident) obj_res;
-            username = resident.getUsername();
-            onlineResidents.put(username, this);
-            onlineResidentsInfo.put(username, resident);
+            id = resident.getId();
+            onlineResidents.put(id, this);
+            onlineResidentsInfo.put(id, resident);
             is_resident = true;
+            String doctorListMessage = MessageUtils.getMessage(true, null, getDoctorNames());
+            String newResidentMessage = MessageUtils.getMessage(true, id, "new");
+            try {
+                this.session.getBasicRemote().sendText(doctorListMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            broadcastAllDoctors(newResidentMessage);
         } else {
+            System.out.println("A doctor logged in");
             Doctor doctor = (Doctor) this.httpSession.getAttribute("doctor");
-            username = doctor.getUsername();
-            onlineDoctors.put(username, this);
-            onlineDoctorsInfo.put(username, doctor);
+            id = doctor.getId();
+            onlineDoctors.put(id, this);
+            onlineDoctorsInfo.put(id, doctor);
             is_resident = false;
+            String residentListMessage = MessageUtils.getMessage(true, null, getResidentNames());
+            String newDoctorMessage = MessageUtils.getMessage(true, id, "new");
+            try {
+                this.session.getBasicRemote().sendText(residentListMessage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            broadcastAllResidents(newDoctorMessage);
         }
-        String message = MessageUtils.getMessage(true, null, getNames());
-        broadcastAllUsers(message);
     }
 
     @OnClose
     public void onClose() {
         if (is_resident) {
-            onlineResidents.remove(this.username);
-            onlineResidentsInfo.remove(this.username);
+            onlineResidents.remove(this.id);
+            onlineResidentsInfo.remove(this.id);
         } else {
-            onlineDoctors.remove(this.username);
-            onlineDoctorsInfo.remove(this.username);
+            onlineDoctors.remove(this.id);
+            onlineDoctorsInfo.remove(this.id);
         }
     }
 

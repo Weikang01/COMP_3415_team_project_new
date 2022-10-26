@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-//@ServerEndpoint("/chat")
+@ServerEndpoint("/chat")
 public class ChatEndpoint {
     private static int onlineCount = 0;
     private static final ConcurrentHashMap<String, ChatEndpoint> onlineUsers = new ConcurrentHashMap<>();

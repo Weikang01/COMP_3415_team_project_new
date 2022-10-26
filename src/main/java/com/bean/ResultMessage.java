@@ -2,15 +2,15 @@ package com.bean;
 
 public class ResultMessage {
     private boolean isSystem;
-    private String fromName;
+    private int fromId;
     private Object message;
 
     public ResultMessage() {
     }
 
-    public ResultMessage(boolean isSystem, String fromName, String message) {
+    public ResultMessage(boolean isSystem, int fromId, String message) {
         this.isSystem = isSystem;
-        this.fromName = fromName;
+        this.fromId = fromId;
         this.message = message;
     }
 
@@ -22,12 +22,12 @@ public class ResultMessage {
         isSystem = system;
     }
 
-    public String getFromName() {
-        return fromName;
+    public int getFromId() {
+        return fromId;
     }
 
-    public void setFromName(String fromName) {
-        this.fromName = fromName;
+    public void setFromId(int fromId) {
+        this.fromId = fromId;
     }
 
     public Object getMessage() {

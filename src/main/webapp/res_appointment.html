@@ -2,13 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
     <title>Appointment</title>
+    <script src="static/js/jquery-3.6.1.min.js"></script>
+    <script src="static/js/res_appointment.js"></script>
 </head>
 <body>
 <form th:action="@{/make_appointment}" method="post">
-  <input type="date" name="date" id="date">
-    <input type="text" name="hour" id="hour">
-    <input type="text" name="min" id="min">
+    <input type="hidden" id="resident_id" name="resident_id" th:value="${session.resident.getId()}">
+    <input type="hidden" id="doctor_id" name="doctor_id">
+    <input type="date" name="date" id="date">
+<!--    <input type="text" name="hour" id="hour">-->
+    <select name="hour" id="hour">
+    </select>
+    <select name="min" id="min">
+    </select>
     <input type="submit" value="ok">
 </form>
 </body>

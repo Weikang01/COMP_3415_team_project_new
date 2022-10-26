@@ -3,10 +3,15 @@ package com.dao.impl;
 import com.bean.Doctor;
 import com.dao.BaseDAO;
 import com.dao.DoctorDAO;
+import com.dao.HospitalDAO;
+import com.dao.SpecialtyDAO;
 
 import java.util.List;
 
 public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
+    HospitalDAO hospitalDAO = new HospitalDAOImpl();
+    SpecialtyDAO specialtyDAO = new SpecialtyDAOImpl();
+    
     @Override
     public void insert(Doctor doctor) {
         String sql = "insert into doctors " +
@@ -41,17 +46,33 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
                 doctor.getSpecialty1_id(), doctor.getSpecialty2_id(), doctor.getSpecialty3_id(), doctor.getSpecialty4_id(), doctor.getSpecialty5_id(),
                 doctor.getUsername());
     }
-
+    
     @Override
     public Doctor getDoctorById(int id) {
         String sql = "select * from doctors where id=?";
-        return getInstance(Doctor.class, sql, id);
+        Doctor doctor = getInstance(Doctor.class, sql, id);
+        doctor.setHospital(hospitalDAO.getHospitalById(doctor.getHospital_id()).getName());
+        doctor.setSpecialty1(specialtyDAO.getSpecialtyById(doctor.getSpecialty1_id()).getName());
+        doctor.setSpecialty2(specialtyDAO.getSpecialtyById(doctor.getSpecialty2_id()).getName());
+        doctor.setSpecialty3(specialtyDAO.getSpecialtyById(doctor.getSpecialty3_id()).getName());
+        doctor.setSpecialty4(specialtyDAO.getSpecialtyById(doctor.getSpecialty4_id()).getName());
+        doctor.setSpecialty5(specialtyDAO.getSpecialtyById(doctor.getSpecialty5_id()).getName());
+        
+        return doctor;
     }
 
     @Override
     public Doctor getDoctorByUsername(String username) {
         String sql = "select * from doctors where username=?";
-        return getInstance(Doctor.class, sql, username);
+        Doctor doctor = getInstance(Doctor.class, sql, username);
+        doctor.setHospital(hospitalDAO.getHospitalById(doctor.getHospital_id()).getName());
+        doctor.setSpecialty1(specialtyDAO.getSpecialtyById(doctor.getSpecialty1_id()).getName());
+        doctor.setSpecialty2(specialtyDAO.getSpecialtyById(doctor.getSpecialty2_id()).getName());
+        doctor.setSpecialty3(specialtyDAO.getSpecialtyById(doctor.getSpecialty3_id()).getName());
+        doctor.setSpecialty4(specialtyDAO.getSpecialtyById(doctor.getSpecialty4_id()).getName());
+        doctor.setSpecialty5(specialtyDAO.getSpecialtyById(doctor.getSpecialty5_id()).getName());
+
+        return doctor;
     }
 
     @Override
@@ -85,6 +106,18 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
                 "  FROM doctors\n" +
                 "  HAVING distance < ?" +
                 "  ORDER BY distance";
-        return getInstanceList(Doctor.class, sql, latitude, latitude, longitude, max_distance);
+        List<Doctor> doctorList = getInstanceList(Doctor.class, sql, latitude, latitude, longitude, max_distance);
+
+        for (Doctor doctor :
+                doctorList) {
+            doctor.setHospital(hospitalDAO.getHospitalById(doctor.getHospital_id()).getName());
+            doctor.setSpecialty1(specialtyDAO.getSpecialtyById(doctor.getSpecialty1_id()).getName());
+            doctor.setSpecialty2(specialtyDAO.getSpecialtyById(doctor.getSpecialty2_id()).getName());
+            doctor.setSpecialty3(specialtyDAO.getSpecialtyById(doctor.getSpecialty3_id()).getName());
+            doctor.setSpecialty4(specialtyDAO.getSpecialtyById(doctor.getSpecialty4_id()).getName());
+            doctor.setSpecialty5(specialtyDAO.getSpecialtyById(doctor.getSpecialty5_id()).getName());
+        }
+        
+        return doctorList;
     }
 }
