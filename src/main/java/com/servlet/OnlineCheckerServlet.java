@@ -2,7 +2,7 @@ package com.servlet;
 
 import com.bean.Doctor;
 import com.bean.Resident;
-import com.logic.OnlineStatusLogic;
+//import com.logic.OnlineStatusLogic;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +18,10 @@ public class OnlineCheckerServlet extends HttpServlet {
         Object db = req.getParameter("db");
         req.getSession().setMaxInactiveInterval(30 * 60);
 
-        if ("res".equals(db)) {
-            OnlineStatusLogic.userLogin(Resident.class, (String) req.getParameter("username"));
-        } else if ("doc".equals(db)) {
-            OnlineStatusLogic.userLogin(Doctor.class, (String) req.getParameter("username"));
-        }
+//        if ("res".equals(db)) {
+//            OnlineStatusLogic.userLogin(Resident.class, (String) req.getParameter("username"));
+//        } else if ("doc".equals(db)) {
+//            OnlineStatusLogic.userLogin(Doctor.class, (String) req.getParameter("username"));
+//        }
     }
 }

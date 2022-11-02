@@ -6,15 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/login_pages.css">
+    <link rel="stylesheet" href="static/css/doc_main.css">
     <script src="static/js/jquery-3.6.1.min.js"></script>
+    <script src="static/js/localStorageHandler.js"></script>
     <script src="static/js/doc_main.js"></script>
     <title>Telemedicine System</title>
 </head>
 <body>
-    <input type="hidden" id="resident_username_holder" th:value="${session.doctor.getUsername()}">
+    <input type="hidden" id="doctor_username_holder" th:value="${session.doctor.getUsername()}">
+    <input type="hidden" id="doctor_id_holder" th:value="${session.doctor.getId()}">
     <table>
         <tr>
-            <td>
+            <td style="width: fit-content">
                 <h1>
                     Hi, <span th:text="${session.doctor.getFirstname()}"></span>
                 </h1>
@@ -29,6 +32,9 @@
                 <div class="list_button">
                     logout
                 </div>
+            </td>
+            <td id="message_card_list" style="width: 300px; background: #e5e5e5">
+                <h2>Messages</h2>
             </td>
         </tr>
     </table>

@@ -42,7 +42,7 @@ public class DocDAOServlet extends HttpServlet {
 
                 for (int i = 0; i < doctorsNearCoord.size(); i++) {
                     String doctor = mapper.writeValueAsString(doctorsNearCoord.get(i));
-                    json.append("\"_").append(i).append("\" : ").append(doctor);
+                    json.append("\"").append(i).append("\" : ").append(doctor);
                     if (i != doctorsNearCoord.size() - 1) {
                         json.append(",");
                     }

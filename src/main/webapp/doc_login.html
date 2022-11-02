@@ -8,24 +8,42 @@
     <script src="static/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
-    <div class="login_window" id="doc_login">
-        <h2>Doctor Login</h2>
-        <span class="input_checker_text" id="username_text"
-              th:style="'display:' + @{(${session.invalid_input} == null ? 'none' : 'inline-block')} + ''"
-              th:text="@{${session.invalid_input} == null? '' : 'Username and/or password are incorrect'}">
-        </span>
-        <form th:action="@{/doc_login}" method="post">
-            username: <label>
-            <input type="text" name="username" id="username"
-                   th:classappend="@{${session.invalid_input} == null? '' : 'input_invalid'}" >
-        </label>
-            password: <label>
-            <input type="password" name="password" id="password"
-                   th:classappend="@{${session.invalid_input} == null? '' : 'input_invalid'}" >
-        </label>
-            <input type="submit" value="ok">
-        </form>
-        <a th:href="@{/welcome}">back to welcome</a>
+    <nav class="navBar">
+        <div class="Nav_Buttons">
+            <a onclick="window.open('/welcome', '_self')">Home</a>
+        </div>
+        <div class="Nav_Buttons">
+            <a onclick="window.open('/res_reg', '_self')">Resident Registration</a>
+            <a onclick="window.open('/res_login', '_self')">Resident Login</a>
+            <a onclick="window.open('/doc_reg', '_self')">Doctor Registration</a>
+            <a onclick="window.open('/doc_login', '_self')">Doctor Login</a>
+        </div>
+    </nav>
+
+    <div class="login_container">
+        <div class="login_window" id="doc_login">
+            <h2>Doctor Login</h2>
+            <span class="input_checker_text" id="username_text"
+                  th:style="'display:' + @{(${session.invalid_input} == null ? 'none' : 'inline-block')} + ''"
+                  th:text="@{${session.invalid_input} == null? '' : 'Username and/or password are incorrect'}">
+                </span>
+            <form th:action="@{/doc_login}" method="post">
+                <label> Username:
+                    <input placeholder="User Name" type="text" name="username" id="username"
+                           th:classappend="@{${session.invalid_input} == null? '' : 'input_invalid'}" >
+                </label>
+                <label> Password:
+                    <input placeholder="Password" type="password" name="password" id="password"
+                           th:classappend="@{${session.invalid_input} == null? '' : 'input_invalid'}" >
+                </label>
+                <button class="doc-login-submit" type="submit">Log In</button>
+            </form>
+            <h2>Or</h2>
+            <div class="go_back_buttons">
+                <a onclick="window.open('/doc_reg', '_self')">Sign Up</a>
+                <a onclick="window.open('/welcome', '_self')">Back to Home</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

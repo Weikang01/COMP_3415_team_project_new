@@ -14,10 +14,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @ServerEndpoint(value = "/main", configurator = GetHttpSessionConfigurator.class)
 public class MainEndpoint {
-    private static final ConcurrentHashMap<Integer, MainEndpoint> onlineResidents = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Integer, Resident> onlineResidentsInfo = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Integer, MainEndpoint> onlineDoctors = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Integer, Doctor> onlineDoctorsInfo = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, MainEndpoint> onlineResidents = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, Resident> onlineResidentsInfo = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, MainEndpoint> onlineDoctors = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, Doctor> onlineDoctorsInfo = new ConcurrentHashMap<>();
     private Session session;
     private HttpSession httpSession;
     private boolean is_resident;
@@ -29,15 +29,19 @@ public class MainEndpoint {
     private Set<Integer> getDoctorNames() {
         return onlineDoctors.keySet();
     }
-
     private void broadcastAllDoctors(String message) {
         _broadcastAll(message, onlineDoctors);
-
     }
     private void broadcastAllResidents(String message) {
         _broadcastAll(message, onlineResidents);
     }
-
+    private void sendMessageBack(String message) {
+        try {
+            this.session.getBasicRemote().sendText(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     private void _broadcastAll(String message, ConcurrentHashMap<Integer, MainEndpoint> onlineUsers) {
         try {
             Set<Integer> ids = onlineUsers.keySet();
@@ -60,16 +64,16 @@ public class MainEndpoint {
             Resident resident = (Resident) obj_res;
             id = resident.getId();
             onlineResidents.put(id, this);
+
+            System.out.println(getResidentNames());
+
             onlineResidentsInfo.put(id, resident);
             is_resident = true;
-            String doctorListMessage = MessageUtils.getMessage(true, null, getDoctorNames());
-            String newResidentMessage = MessageUtils.getMessage(true, id, "new");
-            try {
-                this.session.getBasicRemote().sendText(doctorListMessage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String doctorListMessage = MessageUtils.getMessage(true, null,null, null, getDoctorNames());
+            String newResidentMessage = MessageUtils.getMessage(true, id, null, null, "new");
+
             broadcastAllDoctors(newResidentMessage);
+            sendMessageBack(doctorListMessage);
         } else {
             System.out.println("A doctor logged in");
             Doctor doctor = (Doctor) this.httpSession.getAttribute("doctor");
@@ -77,14 +81,12 @@ public class MainEndpoint {
             onlineDoctors.put(id, this);
             onlineDoctorsInfo.put(id, doctor);
             is_resident = false;
-            String residentListMessage = MessageUtils.getMessage(true, null, getResidentNames());
-            String newDoctorMessage = MessageUtils.getMessage(true, id, "new");
-            try {
-                this.session.getBasicRemote().sendText(residentListMessage);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            String residentListMessage = MessageUtils.getMessage(true, null,null, null, getResidentNames());
+            String newDoctorMessage = MessageUtils.getMessage(true, id, null, null,"new");
+            System.out.println(getResidentNames());
+
             broadcastAllResidents(newDoctorMessage);
+            sendMessageBack(residentListMessage);
         }
     }
 

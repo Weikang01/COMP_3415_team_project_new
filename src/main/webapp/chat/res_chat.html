@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google" content="notranslate">
+  <link rel="stylesheet" href="../static/css/chat_window.css">
+  <script src="../static/js/jquery-3.6.1.min.js"></script>
+  <script src="../static/js/localStorageHandler.js"></script>
+  <script src="../static/js/res_chat.js"></script>
+  <title>Chat Window</title>
+</head>
+<body>
+  <div class='container'>
+    <div class='chatbox__user-list'>
+      <h1 style="margin-bottom: 0; margin-top: 5px" th:text="'Dr. ' + ${session.cur_doctor.getFirstname()} + ' ' + ${session.cur_doctor.getLastname()}"></h1>
+    </div>
+    <div class='chatbox'>
+      <div id="chat_list" style="height:500px; overflow-x: hidden; overflow-y: auto;">
+      </div>
+
+    </div>
+    <form class="msger-inputarea">
+      <label for="message_text"></label>
+      <textarea class="msger-input" placeholder="Enter your message..." id="message_text"></textarea>
+      <button type="button" class="msger-send-btn" id="send_message">Send</button>
+    </form>
+  </div>
+</body>
+</html>

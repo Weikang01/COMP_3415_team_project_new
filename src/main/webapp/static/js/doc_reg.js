@@ -71,7 +71,6 @@ $(document).ready(function () {
                     success: function (resp) {
                         if (resp === "0") {
                             valid_username_input_display("This is a valid username!");
-
                         }
                         else {
                             invalid_username_input_display("This username is already taken!");

@@ -1,0 +1,36 @@
+.message_card {
+    width: 100%;
+    background: #ffd1a6;
+    border: 1px solid #c28b57
+}
+
+.message_card_text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width:300px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    margin-bottom: 10px
+}
+
+.message_status_dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.message_from {
+    display: inline-block;
+    width: 100%;
+    text-align: right
+}
+
+.status_unread {
+    background-color: lime;
+}
+
+.status_read {
+    background-color: #999999;
+}

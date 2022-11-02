@@ -3,7 +3,7 @@ package com.servlet;
 import com.bean.Resident;
 import com.dao.ResidentDAO;
 import com.dao.impl.ResidentDAOImpl;
-import com.logic.OnlineStatusLogic;
+//import com.logic.OnlineStatusLogic;
 import com.springmvc.ViewBaseServlet;
 import com.utils.DateUtils;
 import com.utils.Enums;
@@ -51,7 +51,7 @@ public class ResRegServlet extends ViewBaseServlet {
         HttpSession session = req.getSession(true);
         session.setAttribute("resident", resident);
 
-        OnlineStatusLogic.userLogin(Resident.class, resident.getUsername());
+//        OnlineStatusLogic.userLogin(Resident.class, resident.getUsername());
         resp.sendRedirect("res.home");
     }
 }

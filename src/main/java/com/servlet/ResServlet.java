@@ -8,7 +8,7 @@ import com.dao.SpecialtyDAO;
 import com.dao.impl.DoctorDAOImpl;
 import com.dao.impl.HospitalDAOImpl;
 import com.dao.impl.SpecialtyDAOImpl;
-import com.logic.OnlineStatusLogic;
+//import com.logic.OnlineStatusLogic;
 import com.springmvc.ViewBaseServlet;
 
 import javax.servlet.ServletException;
@@ -39,7 +39,7 @@ public class ResServlet extends ViewBaseServlet {
                 doctor.setSpecialty3(specialtyDAO.getSpecialtyById(doctor.getSpecialty3_id()).getName());
                 doctor.setSpecialty4(specialtyDAO.getSpecialtyById(doctor.getSpecialty4_id()).getName());
                 doctor.setSpecialty5(specialtyDAO.getSpecialtyById(doctor.getSpecialty5_id()).getName());
-                doctorsOnlineStatus.add(OnlineStatusLogic.isOnline(Doctor.class, doctor.getUsername()));
+//                doctorsOnlineStatus.add(OnlineStatusLogic.isOnline(Doctor.class, doctor.getUsername()));
             }
             req.getSession().setMaxInactiveInterval(30 * 60);
             req.getSession().setAttribute("doctorsNearby", doctorsNearby);
