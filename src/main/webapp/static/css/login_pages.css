@@ -58,30 +58,31 @@
 /* For Welcome Page */
 
 html, body {
+    background-color: #f5d9d5;
     margin: 0;
     font-family: 'Inter', sans-serif;
 }
 
 /* NavBar */
 
-.navBar{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: none;
-    padding: none;
+#mainNavBar{
     height: 70px;
     background: #272727;
 }
 
+#mainNavBar .nav--home{
+    cursor: pointer;
+    margin-right: 50%;
+    color: #f6f4e6;
+}
 
 .Nav_Buttons a{
-    margin: 10px;
+    cursor: pointer;
+    margin: none;
     color: #f6f4e6;
     text-decoration: none;
     font-size: 1em;
     font-weight: 500;
-    width: 50px;
     transition: all 0.2s ease-in-out;
 }
 
@@ -89,7 +90,7 @@ html, body {
     color: #fddb3a;
 }
 
-/* Hero Container */
+/* Hero Container-- Welcome page */
 
 .hero{
     display:flex;
@@ -104,18 +105,18 @@ html, body {
     font-family: 'Inter', sans-serif;
     background-color: rgb(230, 230, 253);
     width:40%;
-    height: 50%;
+    height: 70%;
     border-radius: 10px;
     padding: 30px;
     margin-right: 60px;
 }
 
 .hero--arrival{
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: 500;
     letter-spacing: 2.6px;
     margin-bottom: 30px;
-    margin-left: 10px;
+
 }
 
 .hero--heading{
@@ -127,22 +128,28 @@ html, body {
 }
 
 .hero--text{
+    margin-top: 8%;
+    margin-bottom: 20px;
     line-height: 35px;
     font-size: 1.5vw;
     font-weight: 500;
 }
 
 .hero--button{
+    cursor: pointer;
     background-color: rgb(46, 63, 160);
-    color: white;
+    color: #fddb3a;
     font-weight: 600;
     font-size: 1.4vw;
     padding: 20px;
-    margin: none;
-    border-radius: 30px;
+    border-radius: 20px;
     text-decoration: none;
 }
 
+/* Information on welcome page */
+.information{
+    margin: 20px 0;
+}
 /* For Doctor Login page */
 
 .login_container{
@@ -156,7 +163,7 @@ html, body {
 }
 
 .login_container .login_window{
-    height: 520px;
+    height: 560px;
     width: 400px;
     background-color: rgba(255,255,255,0.13);
     border-radius: 10px;
@@ -213,22 +220,24 @@ html, body {
     line-height: 42px;
     text-align: center;
 }
-.login_container{
+
+.login_container .go_back_buttons{
     display:flex;
     justify-content: space-between;
+    color: #080710;
 }
-.login_container div{
+.login_container .go_back_buttons a{
     text-align: center;
     text-decoration: none;
     width: 40%;
     background-color: #ffffff;
-    color: #080710;
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
 }
+
 
 .dropdown {
     position: relative;

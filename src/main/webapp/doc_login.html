@@ -5,20 +5,26 @@
     <meta name="google" content="notranslate">
     <title>Doctor Login</title>
     <link rel="stylesheet" href="static/css/login_pages.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="static/js/jquery-3.6.1.min.js"></script>
 </head>
 <body>
-    <nav class="navBar">
-        <div class="Nav_Buttons">
-            <a onclick="window.open('/welcome', '_self')">Home</a>
+    <nav class="navbar navbar-expand-md" id="mainNavBar">
+        <div class="container-fluid">
+          <a class="navbar-brand nav--home" onclick="window.open('/welcome', '_self')">Home</a>
+          <button class= "navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse Nav_Buttons" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link" onclick="window.open('/res_reg', '_self')">Resident Registration</a>
+              <a class="nav-link" onclick="window.open('/res_login', '_self')">Resident Login</a>
+              <a class="nav-link" onclick="window.open('/doc_reg', '_self')">Doctor Registration</a>
+              <a class="nav-link" onclick="window.open('/doc_login', '_self')">Doctor Login</a>
+            </div>
+          </div>
         </div>
-        <div class="Nav_Buttons">
-            <a onclick="window.open('/res_reg', '_self')">Resident Registration</a>
-            <a onclick="window.open('/res_login', '_self')">Resident Login</a>
-            <a onclick="window.open('/doc_reg', '_self')">Doctor Registration</a>
-            <a onclick="window.open('/doc_login', '_self')">Doctor Login</a>
-        </div>
-    </nav>
+      </nav>
 
     <div class="login_container">
         <div class="login_window" id="doc_login">
@@ -45,5 +51,7 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
 </html>
