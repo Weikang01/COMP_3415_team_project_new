@@ -44,7 +44,7 @@ public class ResidentDAOImpl extends BaseDAO implements ResidentDAO {
                 "username=?";
         update(sql, resident.getPassword(), resident.getFirstname(), resident.getLastname(),
                 resident.getGender(), resident.getAddress(), resident.getLatitude(),
-                resident.getLongitude(), resident.getBirthdate(), resident.getUsername());
+                resident.getLongitude(), resident.getTel(), resident.getBirthdate(), resident.getUsername());
     }
 
     @Override

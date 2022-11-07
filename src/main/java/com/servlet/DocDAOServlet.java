@@ -9,6 +9,7 @@ import com.dao.impl.DoctorDAOImpl;
 import com.dao.impl.HospitalDAOImpl;
 import com.dao.impl.SpecialtyDAOImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.utils.DoctorUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,16 +39,8 @@ public class DocDAOServlet extends HttpServlet {
             case "getDoctorsNearCoord":
                 Resident resident = (Resident) req.getSession().getAttribute("resident");
                 List<Doctor> doctorsNearCoord = doctorDAO.getDoctorsNearCoord(resident.getLatitude(), resident.getLongitude(), defaultRange);
-                json = new StringBuilder("{ \"length\": " + doctorsNearCoord.size() + ", ");
 
-                for (int i = 0; i < doctorsNearCoord.size(); i++) {
-                    String doctor = mapper.writeValueAsString(doctorsNearCoord.get(i));
-                    json.append("\"").append(i).append("\" : ").append(doctor);
-                    if (i != doctorsNearCoord.size() - 1) {
-                        json.append(",");
-                    }
-                }
-                json.append("}");
+                json.append(DoctorUtils.doctorListJson(doctorsNearCoord));
                 break;
             case "getDoctorById":
                 String doctor_id;
@@ -68,6 +61,7 @@ public class DocDAOServlet extends HttpServlet {
                 json = new StringBuilder(mapper.writeValueAsString(doctorDAO.getDoctorByUsername(doctor_username)));
                 break;
         }
+        System.out.println(json.toString());
         out.write(json.toString());
         out.close();
     }

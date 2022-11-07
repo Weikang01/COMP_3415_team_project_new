@@ -10,12 +10,18 @@ public class SymptomDAOImpl extends BaseDAO implements SymptomDAO {
     @Override
     public List<Symptom> getSymptomList() {
         String sql = "select * from symptoms";
-        return getInstanceList(Symptom.class, sql);
+        return super.getInstanceList(Symptom.class, sql);
     }
 
     @Override
     public Symptom getSymptomById(int id) {
         String sql = "select * from symptoms where id=?";
         return getInstance(Symptom.class, sql, id);
+    }
+
+    @Override
+    public int getIdByName(String name) {
+        String sql = "select id from symptoms where name=?";
+        return getInstance(Symptom.class, sql, name).getId();
     }
 }

@@ -17,11 +17,5 @@ public class OnlineCheckerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Object db = req.getParameter("db");
         req.getSession().setMaxInactiveInterval(30 * 60);
-
-//        if ("res".equals(db)) {
-//            OnlineStatusLogic.userLogin(Resident.class, (String) req.getParameter("username"));
-//        } else if ("doc".equals(db)) {
-//            OnlineStatusLogic.userLogin(Doctor.class, (String) req.getParameter("username"));
-//        }
     }
 }

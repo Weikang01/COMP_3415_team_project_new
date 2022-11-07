@@ -18,8 +18,7 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
                 "(username, password, firstname, lastname, address, latitude, longitude, tel, hospital_id, specialty1_id, specialty2_id, specialty3_id, specialty4_id, specialty5_id) values " +
                 "(?,        ?,        ?,         ?,        ?,       ?,        ?,         ?,   ?,           ?,             ?,             ?,             ?,             ?)";
         update(sql, doctor.getUsername(), doctor.getPassword(), doctor.getFirstname(), doctor.getLastname(),
-                doctor.getAddress(), doctor.getLatitude(), doctor.getLongitude(), doctor.getTel(), doctor.getHospital_id(),
-                doctor.getSpecialty1_id(), doctor.getSpecialty2_id(), doctor.getSpecialty3_id(), doctor.getSpecialty4_id(), doctor.getSpecialty5_id());
+                doctor.getAddress(), doctor.getLatitude(), doctor.getLongitude(), doctor.getTel(), doctor.getHospital_id());
     }
 
     @Override
@@ -38,12 +37,11 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
     public void update(Doctor doctor) {
         String sql = "update doctors set " +
                 "password=?, firstname=?, lastname=?, address=?, latitude=?, longitude=?, tel=?, " +
-                "hospital_id=?, specialty1_id=?, specialty2_id=?, specialty3_id=?, specialty4_id=?, specialty5_id=? where " +
+                "hospital_id=?, where " +
                 "username=?";
         update(sql, doctor.getPassword(), doctor.getFirstname(), doctor.getLastname(),
                 doctor.getAddress(), doctor.getLatitude(), doctor.getLongitude(),
                 doctor.getTel(), doctor.getHospital_id(),
-                doctor.getSpecialty1_id(), doctor.getSpecialty2_id(), doctor.getSpecialty3_id(), doctor.getSpecialty4_id(), doctor.getSpecialty5_id(),
                 doctor.getUsername());
     }
     
@@ -52,12 +50,7 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
         String sql = "select * from doctors where id=?";
         Doctor doctor = getInstance(Doctor.class, sql, id);
         doctor.setHospital(hospitalDAO.getHospitalById(doctor.getHospital_id()).getName());
-        doctor.setSpecialty1(specialtyDAO.getSpecialtyById(doctor.getSpecialty1_id()).getName());
-        doctor.setSpecialty2(specialtyDAO.getSpecialtyById(doctor.getSpecialty2_id()).getName());
-        doctor.setSpecialty3(specialtyDAO.getSpecialtyById(doctor.getSpecialty3_id()).getName());
-        doctor.setSpecialty4(specialtyDAO.getSpecialtyById(doctor.getSpecialty4_id()).getName());
-        doctor.setSpecialty5(specialtyDAO.getSpecialtyById(doctor.getSpecialty5_id()).getName());
-        
+
         return doctor;
     }
 
@@ -66,11 +59,6 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
         String sql = "select * from doctors where username=?";
         Doctor doctor = getInstance(Doctor.class, sql, username);
         doctor.setHospital(hospitalDAO.getHospitalById(doctor.getHospital_id()).getName());
-        doctor.setSpecialty1(specialtyDAO.getSpecialtyById(doctor.getSpecialty1_id()).getName());
-        doctor.setSpecialty2(specialtyDAO.getSpecialtyById(doctor.getSpecialty2_id()).getName());
-        doctor.setSpecialty3(specialtyDAO.getSpecialtyById(doctor.getSpecialty3_id()).getName());
-        doctor.setSpecialty4(specialtyDAO.getSpecialtyById(doctor.getSpecialty4_id()).getName());
-        doctor.setSpecialty5(specialtyDAO.getSpecialtyById(doctor.getSpecialty5_id()).getName());
 
         return doctor;
     }
@@ -111,11 +99,6 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
         for (Doctor doctor :
                 doctorList) {
             doctor.setHospital(hospitalDAO.getHospitalById(doctor.getHospital_id()).getName());
-            doctor.setSpecialty1(specialtyDAO.getSpecialtyById(doctor.getSpecialty1_id()).getName());
-            doctor.setSpecialty2(specialtyDAO.getSpecialtyById(doctor.getSpecialty2_id()).getName());
-            doctor.setSpecialty3(specialtyDAO.getSpecialtyById(doctor.getSpecialty3_id()).getName());
-            doctor.setSpecialty4(specialtyDAO.getSpecialtyById(doctor.getSpecialty4_id()).getName());
-            doctor.setSpecialty5(specialtyDAO.getSpecialtyById(doctor.getSpecialty5_id()).getName());
         }
         
         return doctorList;

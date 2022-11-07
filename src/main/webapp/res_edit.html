@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <title>Edit Info</title>
+    <link rel="stylesheet" href="static/css/login_pages.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+          integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+          crossorigin>
+    <!--  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>-->
+    <script src="static/js/jquery-3.6.1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+            integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+            crossorigin></script>
+    <!--  <script src="https://unpkg.com/esri-leaflet-geocoder"></script>-->
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <div class="login_window">
+                <h2 style="margin-top: 0">Edit Info</h2>
+                <form th:action="@{/res_edit}" method="post">
+                    <label for="firstname">
+                        first name:
+                        <span class="input_checker_text" id="firstname_text"></span>
+                        <input type="text" name="firstname" id="firstname" th:value="${session.resident.getFirstname()}">
+                    </label>
+                    <label for="lastname">
+                        last name:
+                        <span class="input_checker_text" id="lastname_text"></span>
+                        <input type="text" name="lastname" id="lastname" th:value="${session.resident.getLastname()}">
+                    </label>
+                    <label for="gender">
+                        gender:
+                        <span class="input_checker_text" id="gender_text"></span>
+                        <select id="gender" name="gender" style="width: 100%">
+                            <option th:each="gender, iStat : ${session.genders}" th:value="${iStat.index}" th:text="${gender}" th:selected="${session.resident.getGender() == (iStat.index)}"></option>
+                        </select>
+                    </label>
+                    <label for="birthdate">
+                        birth date:
+                        <span class="input_checker_text" id="birthdate_text"></span>
+                        <input type="date" name="birthdate" id="birthdate" style="width: 100%" th:value="${session.resident.getBirthdate()}">
+                    </label>
+                    <label for="address">
+                        address:
+                        <span class="input_checker_text" id="address_text"></span>
+                        <input type="text" name="address" id="address" th:value="${session.resident.getAddress()}">
+                    </label>
+                    <label for="latitude">
+                        latitude:
+                        <input type="hidden" name="latitude" id="latitude" th:value="${session.resident.getLatitude()}">
+                        <input type="text" name="_latitude" id="_latitude" disabled th:value="${session.resident.getLatitude()}">
+                    </label>
+                    <label for="longitude">
+                        longitude:
+                        <input type="hidden" name="longitude" id="longitude" th:value="${session.resident.getLongitude()}">
+                        <input type="text" name="_longitude" id="_longitude" disabled th:value="${session.resident.getLongitude()}">
+                    </label>
+                    <label for="tel">
+                        tel:
+                        <span class="input_checker_text" id="tel_text"></span>
+                        <input type="tel" name="tel" id="tel" th:value="${session.resident.getTel()}">
+                    </label>
+                    <input type="submit" id="submit" value="ok">
+                </form>
+                <a th:href="@{/welcome}">back to welcome</a>
+            </div>
+        </td>
+        <td>
+            <div id="map"></div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

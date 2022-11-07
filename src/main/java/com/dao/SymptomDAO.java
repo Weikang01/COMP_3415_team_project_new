@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface SymptomDAO {
     List<Symptom> getSymptomList();
-
     Symptom getSymptomById(int id);
+
+    int getIdByName(String name);
 }

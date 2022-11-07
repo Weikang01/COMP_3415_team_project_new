@@ -5,9 +5,11 @@ import com.bean.Hospital;
 import com.bean.Resident;
 import com.bean.Specialty;
 import com.dao.DoctorDAO;
+import com.dao.DoctorSpecialtyDAO;
 import com.dao.HospitalDAO;
 import com.dao.SpecialtyDAO;
 import com.dao.impl.DoctorDAOImpl;
+import com.dao.impl.DoctorSpecialtyDAOImpl;
 import com.dao.impl.HospitalDAOImpl;
 import com.dao.impl.SpecialtyDAOImpl;
 //import com.logic.OnlineStatusLogic;
@@ -23,6 +25,7 @@ import java.util.List;
 @WebServlet("/doc_reg")
 public class DocRegServlet extends ViewBaseServlet {
     DoctorDAO doctorDAO = new DoctorDAOImpl();
+    DoctorSpecialtyDAO doctorSpecialtyDAO = new DoctorSpecialtyDAOImpl();
     HospitalDAO hospitalDAO = new HospitalDAOImpl();
     SpecialtyDAO specialtyDAO = new SpecialtyDAOImpl();
 
@@ -49,6 +52,9 @@ public class DocRegServlet extends ViewBaseServlet {
         doctor.setTel(req.getParameter("tel"));
         doctor.setHospital_id(Integer.parseInt(req.getParameter("hospital_id")));
 
+        doctorDAO.insert(doctor);
+        doctor = doctorDAO.getDoctorByUsername(doctor.getUsername());
+
         int[] specialty_ids = new int[]{
                 Integer.parseInt(req.getParameter("specialty1_id")),
                 Integer.parseInt(req.getParameter("specialty2_id")),
@@ -56,35 +62,14 @@ public class DocRegServlet extends ViewBaseServlet {
                 Integer.parseInt(req.getParameter("specialty4_id")),
                 Integer.parseInt(req.getParameter("specialty5_id"))
         };
-        int cur_idx = 1;
+
         for (int specialty_id : specialty_ids) {
             if (specialty_id != 0) {
-                switch (cur_idx) {
-                    case 1:
-                        doctor.setSpecialty1_id(specialty_id);
-                        break;
-                    case 2:
-                        doctor.setSpecialty2_id(specialty_id);
-                        break;
-                    case 3:
-                        doctor.setSpecialty3_id(specialty_id);
-                        break;
-                    case 4:
-                        doctor.setSpecialty4_id(specialty_id);
-                        break;
-                    case 5:
-                        doctor.setSpecialty5_id(specialty_id);
-                        break;
-                }
-                cur_idx++;
+                doctorSpecialtyDAO.addNewSpecialty(doctor.getId(), specialty_id, 0);
             }
         }
 
-        doctorDAO.insert(doctor);
-
         req.getSession().setAttribute("doctor", doctor);
-
-//        OnlineStatusLogic.userLogin(Doctor.class, doctor.getUsername());
         resp.sendRedirect("doc.home");
     }
 }

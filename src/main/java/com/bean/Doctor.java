@@ -1,5 +1,10 @@
 package com.bean;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @Description: Doctor Bean
  * @author: Weikang
@@ -18,25 +23,16 @@ public class Doctor {
     private double longitude;
     private String tel;
     private int hospital_id;
-    private int specialty1_id;
-    private int specialty2_id;
-    private int specialty3_id;
-    private int specialty4_id;
-    private int specialty5_id;
     private boolean is_active;
     private double distance;
     private String hospital;
-    private String specialty1;
-    private String specialty2;
-    private String specialty3;
-    private String specialty4;
-    private String specialty5;
-
+    private int specialty_index = 0;
+    private Map<String, String> specialties = new HashMap<>();
 
     public Doctor() {
     }
 
-    public Doctor(int id, String username, String password, String firstname, String lastname, String address, double latitude, double longitude, String tel, int hospital_id, int specialty1_id, int specialty2_id, int specialty3_id, int specialty4_id, int specialty5_id, boolean is_active) {
+    public Doctor(int id, String username, String password, String firstname, String lastname, String address, double latitude, double longitude, String tel, int hospital_id, boolean is_active, double distance, String hospital, Map<String, String> specialties) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -47,12 +43,10 @@ public class Doctor {
         this.longitude = longitude;
         this.tel = tel;
         this.hospital_id = hospital_id;
-        this.specialty1_id = specialty1_id;
-        this.specialty2_id = specialty2_id;
-        this.specialty3_id = specialty3_id;
-        this.specialty4_id = specialty4_id;
-        this.specialty5_id = specialty5_id;
         this.is_active = is_active;
+        this.distance = distance;
+        this.hospital = hospital;
+        this.specialties = specialties;
     }
 
     public int getId() {
@@ -135,46 +129,6 @@ public class Doctor {
         this.hospital_id = hospital_id;
     }
 
-    public int getSpecialty1_id() {
-        return specialty1_id;
-    }
-
-    public void setSpecialty1_id(int specialty1_id) {
-        this.specialty1_id = specialty1_id;
-    }
-
-    public int getSpecialty2_id() {
-        return specialty2_id;
-    }
-
-    public void setSpecialty2_id(int specialty2_id) {
-        this.specialty2_id = specialty2_id;
-    }
-
-    public int getSpecialty3_id() {
-        return specialty3_id;
-    }
-
-    public void setSpecialty3_id(int specialty3_id) {
-        this.specialty3_id = specialty3_id;
-    }
-
-    public int getSpecialty4_id() {
-        return specialty4_id;
-    }
-
-    public void setSpecialty4_id(int specialty4_id) {
-        this.specialty4_id = specialty4_id;
-    }
-
-    public int getSpecialty5_id() {
-        return specialty5_id;
-    }
-
-    public void setSpecialty5_id(int specialty5_id) {
-        this.specialty5_id = specialty5_id;
-    }
-
     public boolean isIs_active() {
         return is_active;
     }
@@ -199,46 +153,28 @@ public class Doctor {
         this.hospital = hospital;
     }
 
-    public String getSpecialty1() {
-        return specialty1;
+    public Map<String, String> getSpecialties() {
+        return specialties;
     }
 
-    public void setSpecialty1(String specialty1) {
-        this.specialty1 = specialty1;
+    public void setSpecialties(Map<String, String> specialties) {
+        this.specialties = specialties;
     }
 
-    public String getSpecialty2() {
-        return specialty2;
+    public void addSpecialty(String specialty) {
+        this.specialties.put("" + specialty_index++, specialty);
+        this.specialties.put("length", "" + specialty_index);
     }
 
-    public void setSpecialty2(String specialty2) {
-        this.specialty2 = specialty2;
+    public String specialties_string() {
+        StringBuilder r = new StringBuilder("{");
+        for (String specialty : specialties.values()) {
+            r.append(specialty);
+            r.append(",");
+        }
+        r.append("}");
+        return r.toString();
     }
-
-    public String getSpecialty3() {
-        return specialty3;
-    }
-
-    public void setSpecialty3(String specialty3) {
-        this.specialty3 = specialty3;
-    }
-
-    public String getSpecialty4() {
-        return specialty4;
-    }
-
-    public void setSpecialty4(String specialty4) {
-        this.specialty4 = specialty4;
-    }
-
-    public String getSpecialty5() {
-        return specialty5;
-    }
-
-    public void setSpecialty5(String specialty5) {
-        this.specialty5 = specialty5;
-    }
-
     @Override
     public String toString() {
         return "Doctor{" +
@@ -252,12 +188,10 @@ public class Doctor {
                 ", longitude=" + longitude +
                 ", tel='" + tel + '\'' +
                 ", hospital_id=" + hospital_id +
-                ", specialty1_id=" + specialty1_id +
-                ", specialty2_id=" + specialty2_id +
-                ", specialty3_id=" + specialty3_id +
-                ", specialty4_id=" + specialty4_id +
-                ", specialty5_id=" + specialty5_id +
                 ", is_active=" + is_active +
-                '}';
+                ", distance=" + distance +
+                ", hospital='" + hospital + '\'' +
+                ", specialties='" + specialties_string() +
+        '}';
     }
 }

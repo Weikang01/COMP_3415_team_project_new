@@ -86,7 +86,14 @@ public abstract class BaseDAO {
             while (rs.next()) {
                 T t = clazz.newInstance();
                 for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                    Object columnValue = rs.getObject(i + 1);
+                    Object columnValue = null;
+                    try {
+                        columnValue = rs.getObject(i + 1);
+
+                    } catch (ArrayIndexOutOfBoundsException exception) {
+                        System.out.println("rsmd.getColumnCount() = " + rsmd.getColumnCount() + "\t i+1 = " + (i+1));
+                        return objects;
+                    }
 
                     String columnLabel = rsmd.getColumnLabel(i + 1);
                     Field field = null;

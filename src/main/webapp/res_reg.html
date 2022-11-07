@@ -53,7 +53,7 @@
             gender:
             <span class="input_checker_text" id="gender_text"></span>
             <select id="gender" name="gender" style="width: 100%">
-              <option th:each="gender, iStat : ${session.genders}" th:value="${iStat.index} + 1" th:text="${gender}"></option>
+              <option th:each="gender, iStat : ${session.genders}" th:value="${iStat.index}" th:text="${gender}"></option>
             </select>
           </label>
           <label for="birthdate">

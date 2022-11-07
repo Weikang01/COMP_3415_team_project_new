@@ -22,7 +22,7 @@
             </h1>
             <div th:text="${session.resident.getAddress()}">
             </div>
-            <div id="edit_info" class="list_button">
+            <div id="edit_info" class="list_button" onclick="window.open('/res_edit', '_self')">
                 edit my info
             </div>
             <div id="health_monitor" class="list_button">
@@ -65,19 +65,52 @@
 <!--                </div>-->
             </div>
         </td>
-        <td style="background: gainsboro; vertical-align: top">
+        <td style="background: gainsboro; vertical-align: top; width: 400px; position:absolute; height:100%">
             <h1>Describe my symptom</h1>
-            <form style="position: absolute" th:action="@{/symptom_search}" method="get">
-                <input type="text" list="symptom_list" name="symptoms" id="symptoms">
-                <div class="dropdown">
-<!--                    <div>hello world</div>-->
-<!--                    <div>Good life</div>-->
+            <div class="dropdown_container">
+                <label for="symptoms"></label>
+                <div class="input_text" id="symptoms" contenteditable="true" placeholder="symptom1, symptom2, ..." tabindex="0"></div>
+                <div id="option_list">
                 </div>
-                <datalist id="symptom_list">
-<!--                    <option value="1"><div style="font-weight: bold">Hello</div> world </option>-->
-                </datalist>
-                <input type="submit" value="search">
-            </form>
+            </div>
+            <div id="symptoms_search" tabindex="0">Search</div>
+            <div style="padding-top: 20px">
+                <h1> </h1>
+            </div>
+            <div id="symptom_doctor_list">
+<!--                <div class="symptom_card">first symptom-->
+<!--                    <div class="disease_card">first disease-->
+<!--                        <div class="specialty_card">first specialty-->
+<!--                            <div class="doctor_card">-->
+<!--                                doctor 1-->
+<!--                                <div>Specialty: Cardiology Gastroenterology Orthopedic Surgery</div>-->
+<!--                                <div>Organization: North of Superior Healthcare Group</div>-->
+<!--                                <div>Distance: 56 m</div>-->
+<!--                                <div class="consult_button" style="background: aquamarine">-->
+<!--                                    <input type="hidden" name="doctor_id" th:value="1">-->
+<!--                                    consult-->
+<!--                                </div>-->
+<!--                                <div style="background: darkturquoise">appointment</div>-->
+<!--                            </div>-->
+<!--                            <div class="doctor_card">-->
+<!--                                doctor 1-->
+<!--                                <div class="consult_button" style="background: aquamarine">consult</div>-->
+<!--                                <div style="background: darkturquoise">appointment</div>-->
+<!--                            </div>-->
+<!--                            <div class="doctor_card">-->
+<!--                                doctor 1-->
+<!--                                <div class="consult_button" style="background: aquamarine">consult</div>-->
+<!--                                <div style="background: darkturquoise">appointment</div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="disease_card">second disease-->
+<!--                        <div class="doctor_card">doctor 1</div>-->
+<!--                        <div class="doctor_card">doctor 1</div>-->
+<!--                        <div class="doctor_card">doctor 1</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
         </td>
     </tr>
   </table>
