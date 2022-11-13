@@ -24,4 +24,16 @@ public class DoctorSpecialtyDAOImpl extends BaseDAO implements DoctorSpecialtyDA
         String sql = "insert into doctor_specialty (doctor_id, specialty_id, experience_level) values (?,?,?)";
         super.update(sql, doctor_id, specialty_id, experience_level);
     }
+
+    @Override
+    public boolean doctorSpecialtyExists(int doctor_id, int specialty_id) {
+        String sql = "select doctor_id from doctor_specialty where doctor_id=? and specialty_id=?";
+        return super.getInstance(DoctorSpecialty.class, sql, doctor_id, specialty_id) != null;
+    }
+
+    @Override
+    public void deleteDoctorSpecialty(int doctor_id, int specialty_id) {
+        String sql = "delete from doctor_specialty where doctor_id=? and specialty_id=?";
+        super.update(sql, doctor_id, specialty_id);
+    }
 }

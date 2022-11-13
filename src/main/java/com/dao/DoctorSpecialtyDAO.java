@@ -10,4 +10,8 @@ public interface DoctorSpecialtyDAO {
     List<DoctorSpecialty> getAllBySpecialtyId(int specialty_id);
 
     void addNewSpecialty(int doctor_id, int specialty_id, int experience_level);
+
+    boolean doctorSpecialtyExists(int doctor_id, int specialty_id);
+
+    void deleteDoctorSpecialty(int doctor_id, int specialty_id);
 }

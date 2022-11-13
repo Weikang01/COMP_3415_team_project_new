@@ -1,9 +1,6 @@
 package com.servlet;
 
-import com.bean.Doctor;
-import com.bean.Hospital;
-import com.bean.Resident;
-import com.bean.Specialty;
+import com.bean.*;
 import com.dao.DoctorDAO;
 import com.dao.DoctorSpecialtyDAO;
 import com.dao.HospitalDAO;
@@ -20,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/doc_reg")

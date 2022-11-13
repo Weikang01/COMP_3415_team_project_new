@@ -60,12 +60,12 @@ public class MainEndpoint {
         this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         Object obj_res = this.httpSession.getAttribute("resident");
         if (obj_res != null) {
-            System.out.println("A resident logged in");
+//            System.out.println("A resident logged in");
             Resident resident = (Resident) obj_res;
             id = resident.getId();
             onlineResidents.put(id, this);
 
-            System.out.println(getResidentNames());
+//            System.out.println(getResidentNames());
 
             onlineResidentsInfo.put(id, resident);
             is_resident = true;
@@ -75,7 +75,7 @@ public class MainEndpoint {
             broadcastAllDoctors(newResidentMessage);
             sendMessageBack(doctorListMessage);
         } else {
-            System.out.println("A doctor logged in");
+//            System.out.println("A doctor logged in");
             Doctor doctor = (Doctor) this.httpSession.getAttribute("doctor");
             id = doctor.getId();
             onlineDoctors.put(id, this);
@@ -83,7 +83,7 @@ public class MainEndpoint {
             is_resident = false;
             String residentListMessage = MessageUtils.getMessage(true, null,null, null, getResidentNames());
             String newDoctorMessage = MessageUtils.getMessage(true, id, null, null,"new");
-            System.out.println(getResidentNames());
+//            System.out.println(getResidentNames());
 
             broadcastAllResidents(newDoctorMessage);
             sendMessageBack(residentListMessage);

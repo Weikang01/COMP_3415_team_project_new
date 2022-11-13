@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
+    <title>Edit Info</title>
+    <link rel="stylesheet" href="static/css/login_pages.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+          integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+          crossorigin>
+    <!--  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css"/>-->
+    <script src="static/js/jquery-3.6.1.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+            integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+            crossorigin></script>
+    <script src="static/js/doc_edit.js"></script>
+    <!--  <script src="https://unpkg.com/esri-leaflet-geocoder"></script>-->
+</head>
+<body>
+<table>
+    <tr>
+        <td>
+            <input type="hidden" id="doc_specialties_count" name="doc_specialties_count" th:value="${#lists.size(session.doc_specialties)}">
+            <div class="login_window">
+                <h2 style="margin-top: 0">Edit Info</h2>
+                <form th:action="@{/doc_edit}" method="post">
+                    <label for="firstname">
+                        first name:
+                        <span class="input_checker_text" id="firstname_text"></span>
+                        <input type="text" name="firstname" id="firstname" th:value="${session.doctor.getFirstname()}">
+                    </label>
+                    <label for="lastname">
+                        last name:
+                        <span class="input_checker_text" id="lastname_text"></span>
+                        <input type="text" name="lastname" id="lastname" th:value="${session.doctor.getLastname()}">
+                    </label>
+                    <label for="address">
+                        address:
+                        <span class="input_checker_text" id="address_text"></span>
+                        <input type="text" name="address" id="address" th:value="${session.doctor.getAddress()}">
+                    </label>
+                    <label for="latitude">
+                        latitude:
+                        <input type="hidden" name="latitude" id="latitude" th:value="${session.doctor.getLatitude()}">
+                        <input type="text" name="_latitude" id="_latitude" disabled th:value="${session.doctor.getLatitude()}">
+                    </label>
+                    <label for="longitude">
+                        longitude:
+                        <input type="hidden" name="longitude" id="longitude" th:value="${session.doctor.getLongitude()}">
+                        <input type="text" name="_longitude" id="_longitude" disabled th:value="${session.doctor.getLongitude()}">
+                    </label>
+                    <label for="tel">
+                        tel:
+                        <span class="input_checker_text" id="tel_text"></span>
+                        <input type="tel" name="tel" id="tel" th:value="${session.doctor.getTel()}">
+                    </label>
+                    <label for="hospital_id">
+                        hospital:
+                        <span class="input_checker_text" id="hospital_id_text"></span>
+                        <select id="hospital_id" name="hospital_id" style="width: 100%">
+                            <option th:each="hospital : ${session.hospitals}" th:value="${hospital.id}" th:text="${hospital.name}" th:selected="${session.doctor.getHospital_id() == hospital.id}"></option>
+                        </select>
+                    </label>
+                    <span id="specialties_span">specialties <a href="javascript:void(0)" id="add_specialty">add</a> <a href="javascript:void(0)" id="del_specialty">remove</a> :</span>
+
+                    <label th:each="index : ${#numbers.sequence(0, 4)}" th:for="'specialty' + ${index + 1} + '_id'" th:id="'specialty'+ ${index + 1} +'_id_label'">
+                        <select th:id="'specialty' + ${index + 1} + '_id'" th:name="'specialty' + ${index + 1} + '_id'" style="width: 100%">
+                            <option th:if="${index < #lists.size(session.doc_specialties)}" th:each="specialty : ${session.specialties}" th:value="${specialty.id}" th:text="${specialty.name}" th:selected="${session.doc_specialties[index].specialty_id == specialty.id}"></option>
+                            <option th:unless="${index < #lists.size(session.doc_specialties)}" th:each="specialty : ${session.specialties}" th:value="${specialty.id}" th:text="${specialty.name}" th:selected="0"></option>
+                        </select>
+                    </label>
+
+                    <input type="submit" id="submit" value="ok">
+                </form>
+<!--                <div th:text="${session.doc_specialties[0].specialty_id}"></div>-->
+                <a th:href="@{/welcome}">back to welcome</a>
+            </div>
+        </td>
+        <td>
+            <div id="map"></div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
