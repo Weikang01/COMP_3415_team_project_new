@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
   <title>Doctor Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   <link rel="stylesheet" href="static/css/login_pages.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
         integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
@@ -16,39 +17,57 @@
   <script src="static/js/doc_reg.js"></script>
 </head>
 <body>
+  <nav class="navbar navbar-expand-md" id="mainNavBar">
+    <div class="container-fluid">
+      <a class="navbar-brand nav--home" onclick="window.open('/welcome', '_self')">Home</a>
+      <button class= "navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse Nav_Buttons" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" onclick="window.open('/res_reg', '_self')">Resident Registration</a>
+          <a class="nav-link" onclick="window.open('/res_login', '_self')">Resident Login</a>
+          <a class="nav-link" onclick="window.open('/doc_reg', '_self')">Doctor Registration</a>
+          <a class="nav-link" onclick="window.open('/doc_login', '_self')">Doctor Login</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <h2 id="Main_heading">Doctor Registration</h2>
+  
 <table>
   <tr>
     <td>
-      <div class="login_window">
-        <h2 style="margin-top: 0">Doctor Registration</h2>
+      <div class="login_window table_container">
         <form th:action="@{/doc_reg}" method="post">
           <label for="username">
-            username:
+            Username:
             <span class="input_checker_text" id="username_text"></span>
             <input type="text" name="username" id="username">
           </label>
           <label for="password">
-            password:
+            Password:
             <span class="input_checker_text" id="password_text"></span>
             <input type="password" name="password" id="password">
           </label>
           <label for="confirm_password">
-            confirm your password:
+            Confirm your password:
             <span class="input_checker_text" id="confirm_password_text"></span>
             <input type="password" id="confirm_password">
           </label>
           <label for="firstname">
-            first name:
+            First name:
             <span class="input_checker_text" id="firstname_text"></span>
             <input type="text" name="firstname" id="firstname">
           </label>
           <label for="lastname">
-            last name:
+            Last name:
             <span class="input_checker_text" id="lastname_text"></span>
             <input type="text" name="lastname" id="lastname">
           </label>
           <label for="hospital_id">
-            hospital:
+            Hospital:
             <span class="input_checker_text" id="hospital_id_text"></span>
             <select id="hospital_id" name="hospital_id" style="width: 100%">
               <option th:each="hospital : ${session.hospitals}" th:value="${hospital.id}" th:text="${hospital.name}"></option>
@@ -102,7 +121,6 @@
           </label>
           <input type="submit" id="submit" value="ok">
         </form>
-        <a th:href="@{/welcome}">back to welcome</a>
       </div>
     </td>
     <td>
@@ -110,5 +128,7 @@
     </td>
   </tr>
 </table>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>
 </html>

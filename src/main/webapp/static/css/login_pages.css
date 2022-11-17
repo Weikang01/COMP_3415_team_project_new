@@ -39,7 +39,8 @@
 }
 
 #map {
-    width: 1200px;
+    background: #272727;
+    width: 1100px;
     height: 570px;
     margin: 0;
 }
@@ -153,7 +154,7 @@ html, body {
 /* For Doctor Login page */
 
 .login_container{
-    background-color: #080710;
+    background-color: #e2d7d6;
     width: max;
     height: max;
     display: flex;
@@ -165,7 +166,8 @@ html, body {
 .login_container .login_window{
     height: 560px;
     width: 400px;
-    background-color: rgba(255,255,255,0.13);
+    /* background-color: rgba(255,255,255,0.13); */
+    background-color: #272727;
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255,255,255,0.1);
@@ -175,6 +177,7 @@ html, body {
     color: #ffffff;
     letter-spacing: 0.5px;
 }
+
 
 .login_container .login_window input{
     display: block;
@@ -313,3 +316,33 @@ html, body {
 /*.bold_text {*/
 /*    */
 /*}*/
+
+/* Resident login */
+
+.table_container{
+    width: 200px;
+    background: #272727;
+    color: whitesmoke;
+    width: 100%;
+}
+
+#mainTable{
+    background: #272727;
+    margin-top: 0;
+}
+
+#Main_heading{
+    background: #fddb3a;
+    text-align: center;
+    color: #272727;
+}
+
+/* resident appointment */
+
+.appointment_container{
+    background-color: #272727;
+    width: 400px;
+    height: 200px;
+    text-align: center;
+}
+
