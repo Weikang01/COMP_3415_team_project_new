@@ -6,7 +6,6 @@ import com.bean.Doctor;
 import com.bean.Resident;
 import com.dao.AppointmentDAO;
 import com.dao.impl.AppointmentDAOImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utils.AppointmentUtils;
 
 import javax.servlet.ServletException;
@@ -28,7 +27,7 @@ public class AppointmentDAOServlet extends HttpServlet {
         resp.setContentType("text/plain");
         PrintWriter out = resp.getWriter();
         StringBuilder json = new StringBuilder();
-
+        String id, to_status, from_status;
         switch (req.getParameter("item"))
         {
             case "getAppointmentListByResidentAndDoctor":
@@ -68,6 +67,17 @@ public class AppointmentDAOServlet extends HttpServlet {
                     }
                 }
                 json.append("}");
+                break;
+            case "changeAppointmentStatus":
+                id = req.getParameter("id");
+                to_status = req.getParameter("to_status");
+                from_status = req.getParameter("from_status");
+                if (id != null && to_status != null && AppointmentStatus.isIndexExists(Integer.parseInt(to_status))) {
+                    appointmentDAO.updateStatus(Integer.parseInt(to_status), Integer.parseInt(id));
+                    json.append("{\"newStatusIndex\":").append(Integer.parseInt(to_status)).append("}");
+                } else {
+                    json.append("{\"newStatusIndex\":").append(from_status).append("}");
+                }
                 break;
         }
         out.write(json.toString());

@@ -29,4 +29,14 @@ public enum AppointmentStatus {
             return getAppointmentStatus(index).get().name();
         } else return "";
     }
+
+    public static boolean isIndexExists(int index) {
+        for (AppointmentStatus status: AppointmentStatus.values()) {
+            if (status.getValue() == index) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

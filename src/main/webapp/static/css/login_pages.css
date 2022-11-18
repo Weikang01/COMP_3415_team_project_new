@@ -351,3 +351,10 @@ html, body {
     text-align: center;
 }
 
+span.inactive {
+    color: #999999;
+}
+
+span.inactive:hover {
+    cursor: pointer;
+}
