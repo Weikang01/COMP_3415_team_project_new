@@ -176,6 +176,7 @@ $(document).ready(function () {
             window.open('/make_appointment?resident_id='+ res_id +'&doctor_id=' + doctor_id, 'newwindow', 'height=80, width=500, top=300, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
         })
     }
+
     $(".appointment_button").each(appointment_button_onclick);
 
     let symptomList = [];

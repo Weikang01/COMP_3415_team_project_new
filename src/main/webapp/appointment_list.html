@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Appointments</title>
+  <link rel="stylesheet" href="static/css/login_pages.css">
+  <script src="static/js/jquery-3.6.1.min.js"></script>
+  <script src="static/js/appointment_list.js"></script>
+</head>
+<body>
+<input type="hidden" name="resident_id" id="resident_id" th:value="${session.resident == null? 0: session.resident.getId()}">
+<input type="hidden" name="doctor_id" id="doctor_id" th:value="${session.doctor == null ? 0: session.doctor.getId()}">
+<div id="appointment_list" style="width: 300px">
+<!--  <div class="appointment_card">-->
+<!--    <div>-->
+<!--      <span>firstname</span> <span>lastname</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--      <span>10/11/2022 11:30</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--      status: <span>pending</span>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--      <span style="background: #f5d9d5">cancel</span>-->
+<!--    </div>-->
+<!--  </div>-->
+</div>
+</body>
+</html>

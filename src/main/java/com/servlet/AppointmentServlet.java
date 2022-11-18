@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/make_appointment")
-public class ResAppointmentServlet extends ViewBaseServlet {
+public class AppointmentServlet extends ViewBaseServlet {
     AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.processTemplate("res_appointment",req, resp);
+        super.processTemplate("appointment",req, resp);
     }
 
     @Override

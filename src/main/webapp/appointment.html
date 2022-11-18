@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="google" content="notranslate">
     <title>Appointment</title>
+    <link rel="stylesheet" href="static/css/login_pages.css">
     <script src="static/js/jquery-3.6.1.min.js"></script>
-    <script src="static/js/res_appointment.js"></script>
+    <script src="static/js/appointment.js"></script>
 </head>
 <body>
 <form th:action="@{/make_appointment}" method="post">
-    <input type="hidden" id="resident_id" name="resident_id" th:value="${session.resident.getId()}">
+    <input type="hidden" id="resident_id" name="resident_id">
     <input type="hidden" id="doctor_id" name="doctor_id">
+    <label for="date"></label>
+    <span class="date_checker_text" id="date_text"></span>
     <input type="date" name="date" id="date">
     <select name="hour" id="hour">
     </select>
     <select name="min" id="min">
     </select>
-    <input type="submit" value="ok">
+    <input type="submit" value="ok" id="submit">
 </form>
 </body>
 </html>
