@@ -313,6 +313,11 @@ html, body {
     padding: 5px;
 }
 
+.appointment_card {
+    background-color: blueviolet;
+    padding: 5px;
+}
+
 /*.bold_text {*/
 /*    */
 /*}*/

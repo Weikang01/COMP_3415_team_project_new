@@ -61,7 +61,7 @@ public class DocDAOServlet extends HttpServlet {
                 json = new StringBuilder(mapper.writeValueAsString(doctorDAO.getDoctorByUsername(doctor_username)));
                 break;
         }
-        System.out.println(json.toString());
+//        System.out.println(json.toString());
         out.write(json.toString());
         out.close();
     }

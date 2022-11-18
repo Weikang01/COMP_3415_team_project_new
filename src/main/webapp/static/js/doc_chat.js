@@ -93,5 +93,9 @@ $(document).ready(function () {
         localStorage_setMessage(LOCALSTORAGE_TRUE, doctor_id, resident_id, null,
             null, message, date.getHours(), date.getMinutes());
         websocket.send(JSON.stringify(json));
+    });
+
+    $("#make_appointment").on("click", function (e) {
+        window.open('/make_appointment?resident_id='+ resident_id +'&doctor_id=' + doctor_id, '_blank', 'height=80, width=500, top=300, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     })
 })

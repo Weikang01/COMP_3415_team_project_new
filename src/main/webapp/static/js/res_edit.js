@@ -1,15 +1,22 @@
 $(document).ready(function () {
-    let submit_button = $("input#submit");
 
-    var containSpecial = RegExp(/[(\ )(\~)(\!)(\@)(\#) (\$)(\%)(\^)(\&)(\*)(\()(\))(\-)(\_)(\+)(\=) (\[)(\])(\{)(\})(\|)(\\)(\;)(\:)(\')(\")(\,)(\.)(\/) (\<)(\>)(\?)(\)]+/);
+    let latitude_input = $("#latitude");
+    let latitude_display = $("#_latitude");
+    let longitude_input = $("#longitude");
+    let longitude_display = $("#_longitude");
 
-    let birthdate_checked = false;
+    var map = L.map("map").setView([latitude_display.val(), longitude_display.val()], 16);
+    var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    var marker = L.marker([latitude_display.val(), longitude_display.val()]).addTo(map);
 
-    submit_button.attr("disabled","true");
-
-    function setSubmitActive() {
-        if (birthdate_checked) {
-            submit_button.removeAttr("disabled");
-        }
-    }
+    map.on("click", function (e) {
+        latitude_input.val(e.latlng.lat);
+        latitude_display.val(e.latlng.lat);
+        longitude_input.val(e.latlng.lng);
+        longitude_display.val(e.latlng.lng);
+        marker.setLatLng(e.latlng);
+    })
 })

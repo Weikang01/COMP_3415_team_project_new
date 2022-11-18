@@ -9,6 +9,8 @@ public interface AppointmentDAO {
 
     void update(Appointment appointment);
 
+    void updateStatus(int status, int id);
+
     void delete(int id);
 
     void deleteAllByResidentId(int resident_id);

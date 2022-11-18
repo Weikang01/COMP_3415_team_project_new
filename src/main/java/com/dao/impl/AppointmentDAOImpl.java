@@ -9,20 +9,26 @@ import java.util.List;
 public class AppointmentDAOImpl extends BaseDAO implements AppointmentDAO {
     @Override
     public void insert(Appointment appointment) {
-        String sql = "insert into appointments (resident_id, doctor_id, date, hour, min) values " +
-                                              "(?,           ?,         ?,    ?,    ?)";
+        String sql = "insert into appointments (resident_id, doctor_id, date, hour, min, status) values " +
+                                              "(?,           ?,         ?,    ?,    ?,   ?)";
         update(sql, appointment.getResident_id(), appointment.getDoctor_id(),
-                appointment.getDate(), appointment.getHour(), appointment.getMin());
+                appointment.getDate(), appointment.getHour(), appointment.getMin(), appointment.getStatus());
     }
 
     @Override
     public void update(Appointment appointment) {
         String sql = "update appointments set " +
-                "resident_id=?, doctor_id=?, date=?, hour=?, min=? where " +
+                "resident_id=?, doctor_id=?, date=?, hour=?, min=?, status=? where " +
                 "id=?";
         update(sql, appointment.getResident_id(), appointment.getDoctor_id(),
                 appointment.getDate(), appointment.getHour(), appointment.getMin(),
-                appointment.getId());
+                appointment.getStatus(), appointment.getId());
+    }
+
+    @Override
+    public void updateStatus(int status, int id) {
+        String sql = "update appointments set status=? where id=?";
+        update(sql, status, id);
     }
 
     @Override
@@ -45,13 +51,13 @@ public class AppointmentDAOImpl extends BaseDAO implements AppointmentDAO {
 
     @Override
     public List<Appointment> getAppointmentListByResidentId(int resident_id) {
-        String sql = "select * where resident_id=?";
+        String sql = "select * from appointments where resident_id=?";
         return getInstanceList(Appointment.class, sql, resident_id);
     }
 
     @Override
     public List<Appointment> getAppointmentListByDoctorId(int doctor_id) {
-        String sql = "select * where doctor_id=?";
+        String sql = "select * from appointments where doctor_id=?";
         return getInstanceList(Appointment.class, sql, doctor_id);
     }
 
