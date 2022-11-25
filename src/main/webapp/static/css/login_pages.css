@@ -2,12 +2,33 @@
     display: inline-block;
 }
 
-.list_button, .banner_button {
-    background-color: bisque;
+.banner_button {
+    background-color: #272727;
     width: fit-content;
 }
 
+.list_button{
+    width: 50%;
+    margin-top: 10px;
+    text-align: center;
+    background: none;
+    color: #ffa260;
+    border: 1px solid;
+    padding: 1em 2em;
+    font-size: 1em;
+    transition: all 0.25s;
+}
+
+.list_button:hover{
+    border-color: #f1ff5c;
+    box-shadow: 0em 0.5em 0.5em -0.4em #f1ff5c;
+    transform: translateY(-0.25em);
+    cursor: pointer;
+}
+
 .alarm {
+    position: absolute;
+    left: 85%;
     background-color: red;
     width: fit-content;
 }
@@ -48,6 +69,8 @@
 .doctor_card {
     background-color: #ffd1a6;
     border: 1px solid #c28b57;
+    font-size: 0.5em;
+
 }
 
 .spec_border {
@@ -151,6 +174,10 @@ html, body {
 .information{
     margin: 20px 0;
 }
+
+.lead ul li{
+    font-weight: 600;
+}
 /* For Doctor Login page */
 
 .login_container{
@@ -242,7 +269,7 @@ html, body {
 }
 
 .dropdown_container {
-    position: absolute;
+    /* position: absolute; */
     background-color: #f6f6f6;
     /*min-width: 230px;*/
     overflow: auto;
@@ -279,8 +306,8 @@ html, body {
 }
 .dropdown_container span:hover, .hovered_span {background-color: #ddd;}
 #symptoms_search {
-    position: absolute;
-    left: 57%;
+    /* position: absolute;
+    left: 57%; */
     background-color: #04AA6D;
     color: white;
     padding: 5px 16px 5px 16px;
@@ -299,8 +326,11 @@ html, body {
 }
 
 .symptom_card {
+    height: 245px;
     background-color: #ffd1a6;
     padding: 5px;
+    font-size: 0.5em;
+    overflow: scroll;
 }
 
 .symptom_card .disease_card {
@@ -358,3 +388,32 @@ span.inactive {
 span.inactive:hover {
     cursor: pointer;
 }
+
+/* doctor main page */
+#message_card_list{
+    margin: 30px 25%;
+    height: 100px;
+}
+
+.doctor_main_buttons{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* resident main page */
+
+.res_main_content{
+    margin-top: 40px;
+    text-align: center; 
+    width: 300; 
+    height: 100px;
+    font-size: 2.2em;
+}
+
+.res_main_container{
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.2rem;
+}
+
