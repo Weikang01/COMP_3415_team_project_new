@@ -41,63 +41,117 @@
     <td>
       <div class="login_window table_container">
         <form th:action="@{/res_reg}" method="post">
-          <label for="username">
-            Username:
+          <div>
+            <label for="username">Username:</label>
             <span class="input_checker_text" id="username_text"></span>
             <input type="text" name="username" id="username">
-          </label>
-          <label for="password">
-            Password:
+          </div>
+
+          <div>
+            <label for="password">Password:</label>
             <span class="input_checker_text" id="password_text"></span>
             <input type="password" name="password" id="password">
-          </label>
-          <label for="confirm_password">
-            Confirm your password:
+          </div>
+
+          <div>
+            <label for="confirm_password">Confirm your password:</label>
             <span class="input_checker_text" id="confirm_password_text"></span>
             <input type="password" id="confirm_password">
-          </label>
-          <label for="firstname">
-            First name:
+          </div>
+          <div>
+            <label for="firstname">First name:</label>
             <span class="input_checker_text" id="firstname_text"></span>
             <input type="text" name="firstname" id="firstname">
-          </label>
-          <label for="lastname">
-            Last name:
+          </div>
+          <div>
+            <label for="lastname">Last name:</label>
             <span class="input_checker_text" id="lastname_text"></span>
             <input type="text" name="lastname" id="lastname">
-          </label>
-          <label for="gender">
-            Gender:
+          </div>
+
+          <div>
+            <label for="gender">Gender:</label>
             <span class="input_checker_text" id="gender_text"></span>
             <select id="gender" name="gender" style="width: 100%">
               <option th:each="gender, iStat : ${session.genders}" th:value="${iStat.index}" th:text="${gender}"></option>
             </select>
-          </label>
-          <label for="birthdate">
-            Birth date:
+          </div>
+          <div>
+            <label for="birthdate">Birth date:</label>
             <span class="input_checker_text" id="birthdate_text"></span>
             <input type="date" name="birthdate" id="birthdate" style="width: 100%">
-          </label>
-          <label for="address">
-            Address:
+          </div>
+
+          <div>
+            <label for="address">Address:</label>
             <span class="input_checker_text" id="address_text"></span>
             <input type="text" name="address" id="address">
-          </label>
-          <label for="latitude">
-            Latitude:
+          </div>
+
+          <div>
+            <label for="latitude">Latitude:</label>
             <input type="hidden" name="latitude" id="latitude" value="48.4210658">
             <input type="text" name="_latitude" id="_latitude" disabled value="48.4210658">
-          </label>
-          <label for="longitude">
-            Longitude:
+          </div>
+
+          <div>
+            <label for="longitude">Longitude:</label>
             <input type="hidden" name="longitude" id="longitude" value="-89.2622423">
             <input type="text" name="_longitude" id="_longitude" disabled value="-89.2622423">
-          </label>
-          <label for="tel">
-            Tel:
+          </div>
+
+          <div>
+            <label for="tel">Tel:</label>
             <span class="input_checker_text" id="tel_text"></span>
             <input type="tel" name="tel" id="tel">
-          </label>
+          </div>
+          <div>
+            <h3>Patient History Form</h3>
+
+            <div>
+              <label for="had_ECT">Have you ever had ECT?</label>
+<!--              <input type="checkbox" name="_had_ECT" id="_had_ECT">-->
+              <select id="had_ECT" name="had_ECT" style="width: 30%">
+                <option value="false">No</option>
+                <option value="true">Yes, I have.</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="had_psychotherapy">Have you had psychotherapy?</label>
+              <select id="had_psychotherapy" name="had_psychotherapy" style="width: 30%">
+                <option value="false">No</option>
+                <option value="true">Yes, I have.</option>
+              </select>
+            </div>
+            <div>
+              <label for="had_drug_allergies">Drug allergies: </label>
+              <select id="had_drug_allergies" name="had_drug_allergies" style="width: 30%">
+                <option value="false">No</option>
+                <option value="true">Yes, I have.</option>
+              </select>
+              <div id="drug_allergies">
+                <div>to what?</div>
+                <input type="text" name="drug_allergies_text" id="_drug_allergies_text">
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3>Family History Form</h3>
+            <div class="round_button" id="add_family_history_form_button">+</div>
+            <div class="round_button" id="sub_family_history_form_button">-</div>
+            <div id="family_member_form_list">
+<!--              <div class="family_member_form">-->
+<!--                <label for="family_relationship">relationship: </label>-->
+<!--                <input type="text" name="family_relationship" id="family_relationship">-->
+<!--                <label for="family_member_health_condition"></label>-->
+<!--                <input type="text" name="family_member_health_condition" id="family_member_health_condition">-->
+<!--                <label for="is_deceased">if deceased: </label><input type="checkbox" name="is_deceased" id="is_deceased">-->
+<!--                <label for="death_age">Age(s) at death: </label><input type="text" name="death_age" id="death_age">-->
+<!--                <label for="death_cause">Cause: </label><input type="text" name="death_cause" id="death_cause">-->
+<!--              </div>-->
+            </div>
+          </div>
           <input type="submit" id="submit" value="ok">
         </form>
       </div>

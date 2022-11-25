@@ -1,10 +1,58 @@
 
 $(document).ready(function () {
+
     let appointmentStatusList;
 
     let $appointmentList = $("#appointment_list");
     let resident_id = $("#resident_id").val();
-    let is_resident = resident_id !== 0;
+    let doctor_id = $("#doctor_id").val();
+    let firstname = $("#firstname").val();
+    let lastname = $("#lastname").val();
+    let is_resident = (resident_id !== "0");
+
+    var websocket;
+    if (typeof (WebSocket) == "undefined") {
+        alert("Sorry, your browser does not support Web Socket");
+    } else {
+        websocket = new WebSocket("ws://" + document.location.host +
+            `/make_appointment/q?resident_id=${resident_id}&doctor_id=${doctor_id}`);
+    }
+    websocket.onopen = function () {}
+    websocket.onmessage = function (event) {
+        var dataStr = event.data;
+        let dataJson = JSON.parse(dataStr);
+        if (dataJson.system) {
+            if (dataJson.message === "make_appointment") {
+                let msg;
+                let $window = null;
+                switch (dataJson.type) {
+                    case "new":
+                        msg = `You received a new appointment request in ${dataJson.date} ${dataJson.hour}:${dataJson.min}!`;
+                        $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
+                        break;
+                    case "confirm":
+                        msg = `Your appointment with Dr. ${dataJson.firstname} ${dataJson.lastname} in ${dataJson.date} ${dataJson.hour}:${dataJson.min} has been confirmed!`;
+                        $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
+                        break;
+                    case "cancel":
+                        msg = `Appointment with Dr. ${dataJson.firstname} ${dataJson.lastname} in ${dataJson.date} ${dataJson.hour}:${dataJson.min} has been cancelled by doctor!`;
+                        $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
+                        break;
+                }
+
+                if ($window != null) {
+                    $window.animate({left:"-= 250px"}, 0);
+                    $window.find(".floating_window_close").on("click", function () {
+                        $window.animate({left:"+= 250px"}, 0, function () {
+                            $window.remove();
+                        })
+                    })
+                }
+            }
+        }
+    }
+    websocket.onclose = function () {}
+
     let cancel_status, confirmed_status;
 
     function change_appointment_status(appointment_id, old_status_id, new_status_id, element_id_prefix) {
@@ -32,39 +80,14 @@ $(document).ready(function () {
         });
     }
 
-    function cancel_button_click(event) {
-        if ($(this).hasClass("inactive")) {
-            return;
-        }
-
-        let appointment_id = event.target.id.substring(6);
-        $("#status" + appointment_id).each(function (i, el) {
-            var name = el.className.match(/status(\d*)$/)[1];
-            change_appointment_status(appointment_id, parseInt(name), cancel_status, "cancel");
-        });
-    }
-
-    function confirm_button_click(event) {
-        if ($(this).hasClass("inactive")) {
-            return;
-        }
-
-        let appointment_id = event.target.id.substring(7);
-
-        $("#status" + appointment_id).each(function (i, el) {
-            var name = el.className.match(/status(\d*)$/)[1];
-            change_appointment_status(appointment_id, parseInt(name), confirmed_status, "confirm");
-        });
-    }
-
     function create_appointment_card(val, is_resident) {
         return `
   <div class="appointment_card">
     <div>
       <span>${is_resident? "Dr. ": ""} ${is_resident? val.doctor.firstname : val.resident.firstname}</span> <span>${is_resident? val.doctor.lastname : val.resident.lastname}</span>
     </div>
-    <div>
-      <span>${val.day}/${val.month}/${val.year} ${val.hour}:${val.min}</span>
+    <div class="date_div">
+      <span class="date_span">${val.day}/${val.month}/${val.year} ${val.hour}:${val.min}</span>
     </div>
     <div class="status_div">
       status: <span class="status_span status${val.status}" id="status${val.id}">${appointmentStatusList[val.status].name}</span>
@@ -103,10 +126,69 @@ $(document).ready(function () {
             success: function (resp, textStatus, xhr) {
                 let json = JSON.parse(resp);
                 for (let i = 0; i < json.length; i++) {
-                    $appointmentList.append(create_appointment_card(json[i], is_resident));
+                    let appointment_card = $(create_appointment_card(json[i], is_resident)).appendTo($appointmentList);
+                    appointment_card.find(".cancel_button").on("click", function () {
+                        if ($(this).hasClass("inactive")) {
+                            return;
+                        }
+
+                        let appointment_id = event.target.id.substring(6);
+                        $("#status" + appointment_id).each(function (i, el) {
+                            var name = el.className.match(/status(\d*)$/)[1];
+
+                            let date = new Date(json[i].year, json[i].month, json[i].day);
+                            const yyyy = date.getFullYear();
+                            let mm = date.getMonth() + 1; // Months start at 0!
+                            let dd = date.getDate();
+
+                            if (dd < 10) dd = '0' + dd;
+                            if (mm < 10) mm = '0' + mm;
+                            // yyyy-MM-dd
+                            websocket.send(
+                                `{
+                                "type":"cancel", "date":"${yyyy}-${mm}-${dd}",
+                                "hour":"${json[i].hour}","min":"${json[i].min}",
+                                "firstname": "${firstname}", "lastname":"${lastname}",
+                                "from_resident":"${resident_id !== 0}",
+                                "toId": "${resident_id === "0"? json[i].resident.id : json[i].doctor.id}"
+                                }`);
+                            change_appointment_status(appointment_id, parseInt(name), cancel_status, "cancel");
+                        });
+                    })
+
+                    appointment_card.find(".confirm_button").on("click", function () {
+                        if ($(this).hasClass("inactive")) {
+                            return;
+                        }
+
+                        let appointment_id = event.target.id.substring(7);
+
+                        $("#status" + appointment_id).each(function (i, el) {
+                            var name = el.className.match(/status(\d*)$/)[1];
+
+                            let date = new Date(json[i].year, json[i].month, json[i].day);
+                            const yyyy = date.getFullYear();
+                            let mm = date.getMonth() + 1; // Months start at 0!
+                            let dd = date.getDate();
+
+                            if (dd < 10) dd = '0' + dd;
+                            if (mm < 10) mm = '0' + mm;
+                            // yyyy-MM-dd
+                            websocket.send(
+                                `{
+                                "type":"confirm", "date":"${yyyy}-${mm}-${dd}",
+                                "hour":"${json[i].hour}","min":"${json[i].min}",
+                                "firstname": "${firstname}", "lastname":"${lastname}",
+                                "from_resident":"${resident_id !== 0}",
+                                "toId": "${resident_id === "0"? json[i].resident.id : json[i].doctor.id}"
+                                }`);
+
+                            change_appointment_status(appointment_id, parseInt(name), confirmed_status, "confirm");
+                        });
+                    })
                 }
-                $(".cancel_button").on("click", cancel_button_click);
-                $(".confirm_button").on("click",confirm_button_click);
+                // $(".cancel_button").on("click", cancel_button_click);
+                // $(".confirm_button").on("click",confirm_button_click);
             },
             complete: function(xhr, textStatus) {
                 if (xhr.status === 302) {

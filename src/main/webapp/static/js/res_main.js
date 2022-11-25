@@ -108,6 +108,7 @@ $(document).ready(function () {
     let doctorCardList = $("#doctor_card_list");
     let residentLatitude = parseFloat($("#resident_latitude_holder").val());
     let residentLongitude = parseFloat($("#resident_longitude_holder").val());
+    let floatingWindowList = $(".floating_window_list");
 
     $.get({
         url: "/docdao",
@@ -139,9 +140,36 @@ $(document).ready(function () {
         let dataJson = JSON.parse(dataStr);
         if (dataJson.system) {
             if (dataJson.message === "new") {
-                console.log(dataJson.fromId);
                 doctor_set_online_status(dataJson.fromId, true);
-            } else if (typeof (dataJson.message) === typeof([])) {
+            }
+            else if (dataJson.message === "make_appointment") {
+                let msg;
+                let $window = null;
+                switch (dataJson.type) {
+                    case "new":
+                        msg = `You received a new appointment request in ${dataJson.date} ${dataJson.hour}:${dataJson.min}!`;
+                        $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
+                        break;
+                    case "confirm":
+                        msg = `Your appointment with Dr. ${dataJson.firstname} ${dataJson.lastname} in ${dataJson.date} ${dataJson.hour}:${dataJson.min} has been confirmed!`;
+                        $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
+                        break;
+                    case "cancel":
+                        msg = `Appointment with Dr. ${dataJson.firstname} ${dataJson.lastname} in ${dataJson.date} ${dataJson.hour}:${dataJson.min} has been cancelled by doctor!`;
+                        $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
+                        break;
+                }
+
+                if ($window != null) {
+                    $window.animate({left:"-= 250px"}, 0);
+                    $window.find(".floating_window_close").on("click", function () {
+                        $window.animate({left:"+= 250px"}, 0, function () {
+                            $window.remove();
+                        })
+                    })
+                }
+            }
+            else if (typeof (dataJson.message) === typeof([])) {
                 for (let i = 0; i < dataJson.message.length; i++) {
                     console.log(dataJson.message[i]);
                     doctor_set_online_status(dataJson.message[i], true);
@@ -173,7 +201,7 @@ $(document).ready(function () {
         $(this).on("click", function () {
 
             let doctor_id = $(this).find("input[name='doctor_id']").val();
-            window.open('/make_appointment?resident_id='+ res_id +'&doctor_id=' + doctor_id, 'newwindow', 'height=80, width=500, top=300, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+            window.open('/make_appointment?resident_id='+ res_id +'&doctor_id=' + doctor_id, 'newwindow', 'height=800, width=500, top=0, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
         })
     }
 

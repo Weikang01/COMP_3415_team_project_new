@@ -1,14 +1,8 @@
 package com.servlet;
 
 import com.bean.*;
-import com.dao.DoctorDAO;
-import com.dao.DoctorSpecialtyDAO;
-import com.dao.HospitalDAO;
-import com.dao.SpecialtyDAO;
-import com.dao.impl.DoctorDAOImpl;
-import com.dao.impl.DoctorSpecialtyDAOImpl;
-import com.dao.impl.HospitalDAOImpl;
-import com.dao.impl.SpecialtyDAOImpl;
+import com.dao.*;
+import com.dao.impl.*;
 //import com.logic.OnlineStatusLogic;
 import com.springmvc.ViewBaseServlet;
 
@@ -66,6 +60,7 @@ public class DocRegServlet extends ViewBaseServlet {
                 doctorSpecialtyDAO.addNewSpecialty(doctor.getId(), specialty_id, 0);
             }
         }
+
 
         req.getSession().setAttribute("doctor", doctor);
         resp.sendRedirect("doc.home");

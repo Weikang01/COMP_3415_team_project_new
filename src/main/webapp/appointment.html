@@ -32,8 +32,9 @@
 <div class="login_container">
     <div class="login_window">
         <form class="appointment_reg" th:action="@{/make_appointment}" method="post">
-            <input type="hidden" id="resident_id" name="resident_id" th:value="${session.resident.getId()}">
+            <input type="hidden" id="resident_id" name="resident_id">
             <input type="hidden" id="doctor_id" name="doctor_id">
+            <div id="date_text"></div>
             <input style="margin-bottom: 30px; margin-top: 30%" type="date" name="date" id="date">
             <div style="text-align: center; margin-bottom: 30%;">
                 <select name="hour" id="hour">
@@ -42,7 +43,7 @@
                 </select>
             </div>
 
-            <input type="submit" value="ok">
+            <input type="submit" value="ok" id="submit">
         </form>
     </div>
 </div>

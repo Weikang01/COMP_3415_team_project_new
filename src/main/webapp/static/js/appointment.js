@@ -10,6 +10,27 @@ function getQueryVariable(variable)
 }
 
 $(window).ready(function () {
+    var websocket;
+    if (typeof (WebSocket) == "undefined") {
+        alert("Sorry, your browser does not support Web Socket");
+    } else {
+        websocket = new WebSocket("ws://" + document.location.host + window.location.pathname + '/q' + window.location.search);
+    }
+
+    websocket.onopen = function () {}
+
+    websocket.onmessage = function (event) {}
+
+    websocket.onclose = function () {}
+
+    window.onbeforeunload = function () {
+        closeWebSocket();
+    }
+
+    function closeWebSocket() {
+        websocket.close();
+    }
+
     for (let i = 0, j=12; i < 12; i++, j--) {
         $("<option value='" + (j - 1) + "'>" + j + " AM</option>").prependTo($("#hour"));
         $("<option value='" + (i + 12) + "'>" + (i+1) + " PM</option>").appendTo($("#hour"));
@@ -59,6 +80,7 @@ $(window).ready(function () {
     });
 
     submit_button.on("click", function () {
+        websocket.send(`{"type":"new", "date":"${$date.val()}", "hour":"${$("#hour").val()}", "min":"${$("#min").val()}"}`);
         window.close();
     });
 })

@@ -19,10 +19,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @ServerEndpoint(value ="/chat/{param}", configurator = GetHttpSessionConfigurator.class)
 public class ChatEndpoint {
-    private static final ConcurrentHashMap<Integer, ChatEndpoint> onlineResidents = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Integer, Resident> onlineResidentsInfo = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Integer, ChatEndpoint> onlineDoctors = new ConcurrentHashMap<>();
-    private static final ConcurrentHashMap<Integer, Doctor> onlineDoctorsInfo = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, ChatEndpoint> onlineResidents = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, Resident> onlineResidentsInfo = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, ChatEndpoint> onlineDoctors = new ConcurrentHashMap<>();
+    static final ConcurrentHashMap<Integer, Doctor> onlineDoctorsInfo = new ConcurrentHashMap<>();
     private Session session;
     private HttpSession httpSession;
     private boolean is_resident;

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Patient History Form</title>
+  <link rel="stylesheet" href="static/css/login_pages.css">
+  <script src="static/js/jquery-3.6.1.min.js"></script>
+  <script src="static/js/res_edit_patient_form.js"></script>
+</head>
+<body>
+<input type="hidden" name="resident_id" id="resident_id" th:value="${session.resident.getId()}">
+<form th:action="@{/res_edit_patient_form}" method="post">
+  <div>
+    <label for="had_ECT">Have you ever had ECT?</label>
+    <!--              <input type="checkbox" name="_had_ECT" id="_had_ECT">-->
+    <select id="had_ECT" name="had_ECT" style="width: 30%">
+      <option value="false" th:selected="${session.mostRecentHistoryForm.isHad_ECT() == false}">No</option>
+      <option value="true" th:selected="${session.mostRecentHistoryForm.isHad_ECT() == true}">Yes, I have.</option>
+    </select>
+  </div>
+  <div>
+    <label for="had_psychotherapy">Have you had psychotherapy?</label>
+    <select id="had_psychotherapy" name="had_psychotherapy" style="width: 30%">
+      <option value="false" th:selected="${session.mostRecentHistoryForm.isHad_psychotherapy() == false}">No</option>
+      <option value="true" th:selected="${session.mostRecentHistoryForm.isHad_psychotherapy() == true}">Yes, I have.</option>
+    </select>
+  </div>
+  <div>
+    <label for="had_drug_allergies">Drug allergies: </label>
+    <select id="had_drug_allergies" name="had_drug_allergies" style="width: 30%">
+      <option value="false" th:selected="${session.mostRecentHistoryForm.isHad_drug_allergy() == false}">No</option>
+      <option value="true" th:selected="${session.mostRecentHistoryForm.isHad_drug_allergy() == true}">Yes, I have.</option>
+    </select>
+    <div id="drug_allergies">
+      <div>to what?</div>
+      <input type="text" name="drug_allergies_text" id="_drug_allergies_text" th:value="${session.mostRecentHistoryForm.getDrug_allergy()}">
+    </div>
+  </div>
+  <h3>Family History Form</h3>
+  <div class="round_button" id="add_family_history_form_button">+</div>
+  <div class="round_button" id="sub_family_history_form_button">-</div>
+  <div id="family_member_form_list">
+
+  </div>
+  <input type="submit" value="update">
+</form>
+</body>
+</html>

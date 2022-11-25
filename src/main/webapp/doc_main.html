@@ -9,12 +9,14 @@
     <link rel="stylesheet" href="static/css/doc_main.css">
     <script src="static/js/jquery-3.6.1.min.js"></script>
     <script src="static/js/localStorageHandler.js"></script>
+    <script src="static/js/floating_message_window.js"></script>
     <script src="static/js/doc_main.js"></script>
     <title>Telemedicine System</title>
 </head>
 <body>
     <input type="hidden" id="doctor_username_holder" th:value="${session.doctor.getUsername()}">
     <input type="hidden" id="doctor_id_holder" th:value="${session.doctor.getId()}">
+    <div class="floating_window_list"></div>
     <table>
         <tr>
             <td style="width: fit-content">

@@ -1,3 +1,28 @@
+function create_family_history_form(i) {
+    return `
+              <div class="family_member_form" style="border: 1px solid #EEEEEE">
+                <h4>Family member ${i+1}</h4>
+                <label for="family_relationship${i}">relationship: </label>
+                <input type="text" name="family_relationship${i}" id="family_relationship${i}">
+                
+                <label for="family_member_age${i}">Age:
+                <input type="text" name="family_member_age${i}" id="family_member_age${i}">
+                
+                <label for="family_member_health_condition${i}">Health conditions: </label>
+                <input type="text" name="family_member_health_condition${i}" id="family_member_health_condition${i}">
+                
+                <label for="is_deceased${i}">if deceased:
+              <select id="is_deceased${i}" name="is_deceased${i}" style="width: 30%">
+                <option value="false">No</option>
+                <option value="true">Yes</option>
+              </select>
+                
+                <label for="death_age${i}">Age(s) at death: </label><input type="text" name="death_age${i}" id="death_age${i}">
+                <label for="death_cause${i}">Cause: </label><input type="text" name="death_cause${i}" id="death_cause${i}">
+              </div>
+    `;
+}
+
 $(document).ready(function () {
     let submit_button = $("input#submit");
 
@@ -196,6 +221,36 @@ $(document).ready(function () {
             }
         })
     }
+
+    // Patient History Form
+    let drugAllergies = $("#drug_allergies");
+    drugAllergies.hide();
+    $("#had_drug_allergies").on("change", function () {
+        switch (this.value) {
+            case "true":
+                drugAllergies.show();
+                break;
+            case "false":
+                drugAllergies.hide();
+                break;
+        }
+    })
+
+    // family history form
+    let familyMemberFormList = $("#family_member_form_list");
+    let cur_family_form_num = 0;
+
+    $("#add_family_history_form_button").on("click", function () {
+        $(create_family_history_form(cur_family_form_num)).appendTo(familyMemberFormList);
+        cur_family_form_num++;
+    });
+
+    $("#sub_family_history_form_button").on("click", function () {
+        if (cur_family_form_num>0) {
+            familyMemberFormList.children().last().remove();
+            cur_family_form_num--;
+        }
+    })
 
     // address checking
     var map = L.map("map").setView([48.4210658, -89.2622423], 16);

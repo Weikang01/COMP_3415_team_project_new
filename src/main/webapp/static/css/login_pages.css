@@ -244,7 +244,6 @@ html, body {
 .dropdown_container {
     position: absolute;
     background-color: #f6f6f6;
-    /*min-width: 230px;*/
     overflow: auto;
     border: 1px solid #ddd;
     z-index: 1;
@@ -357,4 +356,53 @@ span.inactive {
 
 span.inactive:hover {
     cursor: pointer;
+}
+
+.floating_window_list {
+    position: fixed;
+    top: 10%;
+    right: 0;
+    z-index: 99999;
+    width: 250px;
+}
+
+.floating_window {
+    margin: 0 0 5px 5px;
+    height: 60px;
+    left: 250px;
+}
+
+.floating_window.move_in_anim {
+    -webkit-transition: 2s;
+    -moz-transition: 2s;
+    -ms-transition: 2s;
+    -o-transition: 2s;
+    transition: transform 2s;
+    transform: translate(0px, 0);
+}
+
+.floating_window.move_out_anim {
+    -webkit-transition: 2s;
+    -moz-transition: 2s;
+    -ms-transition: 2s;
+    -o-transition: 2s;
+    transition: transform 2s;
+    transform: translate(250px, 0) !important;
+}
+
+.floating_window_close {
+    background: white;
+    display: inline-block;
+    width: fit-content
+}
+
+.round_button {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    padding-bottom: 5px;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 50%;
+    background-color: #999999;
 }

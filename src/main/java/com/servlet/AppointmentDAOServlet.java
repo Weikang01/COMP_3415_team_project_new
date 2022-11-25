@@ -47,7 +47,7 @@ public class AppointmentDAOServlet extends HttpServlet {
                 } else {
                     // TODO: doctor
                     Doctor doctor = (Doctor) doctorObj;
-                    List<Appointment> appointmentList = appointmentDAO.getAppointmentListByResidentId(doctor.getId());
+                    List<Appointment> appointmentList = appointmentDAO.getAppointmentListByDoctorId(doctor.getId());
                     json.append(AppointmentUtils.appointmentListJson(appointmentList));
                 }
                 break;
