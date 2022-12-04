@@ -2,6 +2,9 @@ package com.websocket;
 
 import com.bean.Doctor;
 import com.bean.Resident;
+import com.dao.ResidentDAO;
+import com.dao.impl.ResidentDAOImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utils.MessageUtils;
 import com.utils.StringUtils;
 
@@ -9,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,7 +28,6 @@ public class MainEndpoint {
     private HttpSession httpSession;
     private boolean is_resident;
     private int id;
-
     private Set<Integer> getResidentNames() {
         return onlineResidents.keySet();
     }
@@ -53,7 +58,6 @@ public class MainEndpoint {
             e.printStackTrace();
         }
     }
-
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
         this.session = session;
@@ -89,7 +93,6 @@ public class MainEndpoint {
             sendMessageBack(residentListMessage);
         }
     }
-
     @OnClose
     public void onClose() {
         if (is_resident) {
@@ -100,9 +103,9 @@ public class MainEndpoint {
             onlineDoctorsInfo.remove(this.id);
         }
     }
-
     @OnMessage
     public void onMessage(String message, Session session) {
+        System.out.println(message);
         if (StringUtils.isEmpty(message)) {
             for (MainEndpoint socket : onlineResidents.values()) {
                 try {
@@ -111,14 +114,40 @@ public class MainEndpoint {
                     e.printStackTrace();
                 }
             }
+        } else {
+            if (Objects.equals(message, "SOS")) {
+                for (MainEndpoint socket : onlineDoctors.values()) {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        Map<String, Object> json_string = new HashMap<>();
+                        json_string.put("system", true);
+                        json_string.put("message", "SOS");
+                        json_string.put("resident", onlineResidentsInfo.get(id));
+                        socket.sendMessage(mapper.writeValueAsString(json_string));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else if (message.startsWith("SOS_response")) {
+                int resident_id = Integer.parseInt(message.substring(12));
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    Map<String, Object> json_string = new HashMap<>();
+                    json_string.put("system", true);
+                    json_string.put("message", "SOS_response");
+                    json_string.put("doctor_id", id);
+                    onlineResidents.get(resident_id).sendMessage(mapper.writeValueAsString(json_string));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
-
     @OnError
     public void onError(Session session, Throwable error) {
         error.printStackTrace();
     }
-
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
     }

@@ -51,6 +51,12 @@ public class AppointmentDAOServlet extends HttpServlet {
                     json.append(AppointmentUtils.appointmentListJson(appointmentList));
                 }
                 break;
+            case "getAppointmentListByResidentAndDoctor2":
+                int resident_id = Integer.parseInt(req.getParameter("resident_id"));
+                int doctor_id = Integer.parseInt(req.getParameter("doctor_id"));
+                System.out.println("resident_id: " + resident_id + "\tdoctor_id: " + doctor_id);
+                json.append(AppointmentUtils.appointmentListJson(appointmentDAO.getAppointmentListByResidentAndDoctor(resident_id, doctor_id)));
+                break;
             case "getAppointmentStatusList":
                 int i = 0;
                 int length = AppointmentStatus.values().length;

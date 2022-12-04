@@ -50,28 +50,33 @@ function getRad(d){
  * @constructor
  */
 function getDistance(lng1,lat1,lng2,lat2){
-    var f = getRad((lat1 + lat2)/2);
-    var g = getRad((lat1 - lat2)/2);
-    var l = getRad((lng1 - lng2)/2);
-    var sg = Math.sin(g);
-    var sl = Math.sin(l);
-    var sf = Math.sin(f);
-    var s,c,w,r,d,h1,h2;
-    var a = 6378137.0;//The Radius of eath in meter.
-    var fl = 1/298.257;
+    let f = getRad((lat1 + lat2)/2);
+    let g = getRad((lat1 - lat2)/2);
+    let l = getRad((lng1 - lng2)/2);
+
+    let sg = Math.sin(g);
+    let sl = Math.sin(l);
+    let sf = Math.sin(f);
+    let s,c,w,r,d,h1,h2;
+    let a = 6378137.0;//The Radius of eath in meter.
+    let fl = 1/298.257;
     sg = sg*sg;
     sl = sl*sl;
     sf = sf*sf;
     s = sg*(1-sl) + (1-sf)*sl;
     c = (1-sg)*(1-sl) + sf*sl;
+
     w = Math.atan(Math.sqrt(s/c));
     r = Math.sqrt(s*c)/w;
+
     d = 2*w*a;
     h1 = (3*r -1)/2/c;
     h2 = (3*r +1)/2/s;
+
     s = d*(1 + fl*(h1*sf*(1-sg) - h2*(1-sf)*sg));
+
     if(s >= 1000 && s <= 99000){
-        var kilometer = s/1000;
+        let kilometer = s/1000;
         s = kilometer.toFixed(1) + ' km';
     }else if(s > 99000){
         s = '>99km';
@@ -101,7 +106,14 @@ function moveEnd(obj){
     }
 }
 
+function logout() {
+    sessionStorage.clear();
+    window.open("/welcome", "_self");
+}
+
 $(document).ready(function () {
+
+
     let res_username = $("#resident_username_holder").val();
     let res_id = $("#resident_id_holder").val();
     let current_doctors_on_list;
@@ -117,6 +129,7 @@ $(document).ready(function () {
         success: function (resp) {
             let dataJson = JSON.parse(resp);
             for (let i = 0; i < dataJson.length; i++) {
+                // console.log(`${dataJson[i].firstname} ${dataJson[i].lastname} -> longitude: ${dataJson[i].longitude} latitude: ${dataJson[i].latitude} get distance: ${getDistance(residentLongitude, residentLatitude, dataJson[i].longitude, dataJson[i].latitude)}`);
                 doctorCardList.append(generate_doctor_card(dataJson[i],
                     getDistance(residentLongitude, residentLatitude, dataJson[i].longitude, dataJson[i].latitude),
                     false));
@@ -141,6 +154,9 @@ $(document).ready(function () {
         if (dataJson.system) {
             if (dataJson.message === "new") {
                 doctor_set_online_status(dataJson.fromId, true);
+            }
+            else if (dataJson.message === "SOS_response") {
+                window.open('/chat/from_res?resident_id=' + res_id + '&doctor_id=' + dataJson.doctor_id, 'newwindow', 'height=600, width=600, top=300, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
             }
             else if (dataJson.message === "make_appointment") {
                 let msg;
@@ -354,7 +370,7 @@ $(document).ready(function () {
                         url: "/symptomSearch",
                         success: function (resp) {
                             let json = JSON.parse(resp);
-                            console.log(json);
+                            // console.log(json);
                             _idx = 0;
                             if (symptomList.length !== 0)
                                 return;
@@ -489,4 +505,23 @@ $(document).ready(function () {
             option_list.hide();
         }
     })
+
+    let floatingMapContainer = $(".fixed_on_top");
+    floatingMapContainer.hide();
+    var map = L.map("floating_map").setView([48.4210658, -89.2622423], 16);
+    var tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+    let alarm = $("#alarm");
+    alarm.on("click", function () {
+        websocket.send("SOS");
+        // floatingMapContainer.show();
+    })
+
+    $(".floating_background").on("click", function () {
+        floatingMapContainer.hide();
+    })
+
 })

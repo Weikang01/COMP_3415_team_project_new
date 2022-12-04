@@ -10,11 +10,12 @@ public class Appointment {
     private int hour;
     private int min;
     private int status;
+    private String reason;
 
     public Appointment() {
     }
 
-    public Appointment(int id, int resident_id, int doctor_id, Date date, int hour, int min, int status) {
+    public Appointment(int id, int resident_id, int doctor_id, Date date, int hour, int min, int status, String reason) {
         this.id = id;
         this.resident_id = resident_id;
         this.doctor_id = doctor_id;
@@ -22,6 +23,7 @@ public class Appointment {
         this.hour = hour;
         this.min = min;
         this.status = status;
+        this.reason = reason;
     }
 
     public int getId() {
@@ -80,6 +82,14 @@ public class Appointment {
         this.status = status;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
@@ -89,6 +99,8 @@ public class Appointment {
                 ", date=" + date +
                 ", hour=" + hour +
                 ", min=" + min +
+                ", status=" + status +
+                ", reason='" + reason + '\'' +
                 '}';
     }
 }

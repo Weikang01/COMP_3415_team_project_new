@@ -1,8 +1,13 @@
 package com.websocket;
 
+import com.bean.Appointment;
+import com.bean.AppointmentStatus;
 import com.bean.Doctor;
 import com.bean.Resident;
+import com.dao.AppointmentDAO;
+import com.dao.impl.AppointmentDAOImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.utils.DateUtils;
 import com.utils.StringUtils;
 
 import javax.servlet.http.HttpSession;
@@ -17,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AppointmentEndpoint {
     static final ConcurrentHashMap<Integer, AppointmentEndpoint> onlineResidents = new ConcurrentHashMap<>();
     static final ConcurrentHashMap<Integer, AppointmentEndpoint> onlineDoctors = new ConcurrentHashMap<>();
+    private final AppointmentDAO appointmentDAO = new AppointmentDAOImpl();
+    private Session session;
     private HttpSession httpSession;
     private int fromId;
     private int toId;
@@ -28,6 +35,7 @@ public class AppointmentEndpoint {
     public void onOpen(Session session, @PathParam("param")String param, EndpointConfig config)
     {
         Map<String, String> queryMap = StringUtils.getQueryMap(session.getQueryString());
+        this.session = session;
 
         this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         Object obj_res = this.httpSession.getAttribute("resident");
@@ -66,23 +74,51 @@ public class AppointmentEndpoint {
     @OnMessage
     public void onMessage(String message, Session session)
     {
-        System.out.println(message);
         ObjectMapper mapper = new ObjectMapper();
         try {
-            Map<String, String> map = mapper.readValue(message, Map.class);
-            String type = map.get("type");
+            Map<String, Object> map = mapper.readValue(message, Map.class);
+            String type = (String) map.get("type");
             map.put("message", "make_appointment");
             map.put("system", String.valueOf(true));
+            int toId = 0;
 
-            if (!type.equals("new")) {
-                System.out.println("toId: " + map.get("toId"));
+            if (type.equals("new")) {
+                Appointment appointment = new Appointment();
+                appointment.setReason((String) map.get("reason"));
+                appointment.setDate(DateUtils.parseDate((String) map.get("date")));
+                appointment.setHour((Integer) map.get("hour"));
+                appointment.setMin((Integer) map.get("min"));
+                appointment.setResident_id((Integer) map.get("resident_id"));
+                appointment.setDoctor_id((Integer) map.get("doctor_id"));
+
                 if (isResident) {
-                    toChatEndpoint = ChatEndpoint.onlineDoctors.get(Integer.parseInt(map.get("toId")));
-                    toMainEndpoint = MainEndpoint.onlineDoctors.get(Integer.parseInt(map.get("toId")));
+                    appointment.setStatus(AppointmentStatus.pending.getValue());
+                    toId = appointment.getDoctor_id();
                 } else {
-                    toChatEndpoint = ChatEndpoint.onlineResidents.get(Integer.parseInt(map.get("toId")));
-                    toMainEndpoint = MainEndpoint.onlineResidents.get(Integer.parseInt(map.get("toId")));
+                    appointment.setStatus(AppointmentStatus.confirmed.getValue());
+                    toId = appointment.getResident_id();
                 }
+
+                appointmentDAO.insert(appointment);
+            }
+            else {
+                toId = (Integer) map.get("toId");
+                if (isResident) {
+                    toChatEndpoint = ChatEndpoint.onlineDoctors.get((Integer) map.get("toId"));
+                    toMainEndpoint = MainEndpoint.onlineDoctors.get((Integer) map.get("toId"));
+                } else {
+                    toChatEndpoint = ChatEndpoint.onlineResidents.get((Integer) map.get("toId"));
+                    toMainEndpoint = MainEndpoint.onlineResidents.get((Integer) map.get("toId"));
+                }
+            }
+            System.out.println("toId: " + toId);
+
+            if (isResident) {
+                if (onlineDoctors.get(toId) != null)
+                    onlineDoctors.get(toId).sendMessage(mapper.writeValueAsString(map));
+            } else {
+                if (onlineResidents.get(toId) != null)
+                    onlineResidents.get(toId).sendMessage(mapper.writeValueAsString(map));
             }
 
             if (toChatEndpoint != null) {
@@ -100,5 +136,9 @@ public class AppointmentEndpoint {
     public void onError(Session session, Throwable error)
     {
         error.printStackTrace();
+    }
+
+    public void sendMessage(String message) throws IOException {
+        this.session.getBasicRemote().sendText(message);
     }
 }

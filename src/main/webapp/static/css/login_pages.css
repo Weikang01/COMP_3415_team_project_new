@@ -2,14 +2,48 @@
     display: inline-block;
 }
 
-.list_button, .banner_button {
-    background-color: bisque;
+.banner_button {
+    background-color: #272727;
     width: fit-content;
 }
 
-.alarm {
-    background-color: red;
-    width: fit-content;
+.list_button{
+    width: 50%;
+    margin-top: 10px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #004479;
+    padding: 1em 2em;
+    font-size: 1em;
+    transition: all 0.25s;
+    /*box-shadow: 0em 0em 0.1em 0.1em #004479;*/
+}
+
+.list_button:hover{
+    border-color: #004479;
+    box-shadow: 0em 0.5em 0.5em -0.4em #004479;
+    transform: translateY(-0.25em);
+    cursor: pointer;
+}
+
+.alarm{
+    width: 50%;
+    margin-top: 10px;
+    text-align: center;
+    background-color: #ff0707;
+    color: #ffffff;
+    font-weight: bolder;
+    border: 1px solid;
+    padding: 1em 2em;
+    font-size: 1em;
+    transition: all 0.25s;
+}
+
+.alarm:hover {
+    border-color: #ff0707;
+    box-shadow: 0em 0.5em 0.5em -0.4em #ff0707;
+    transform: translateY(-0.25em);
+    cursor: pointer;
 }
 
 .banner_button:hover, .list_button:hover, .alarm:hover {
@@ -48,6 +82,7 @@
 .doctor_card {
     background-color: #ffd1a6;
     border: 1px solid #c28b57;
+    font-size: 0.5em;
 }
 
 .spec_border {
@@ -59,7 +94,7 @@
 /* For Welcome Page */
 
 html, body {
-    background-color: #f5d9d5;
+    background: #f6f4e6;
     margin: 0;
     font-family: 'Inter', sans-serif;
 }
@@ -153,6 +188,10 @@ html, body {
 }
 /* For Doctor Login page */
 
+.lead ul li{
+    font-weight: 600;
+}
+
 .login_container{
     background-color: #e2d7d6;
     width: max;
@@ -242,11 +281,10 @@ html, body {
 }
 
 .dropdown_container {
-    position: absolute;
+    /* position: absolute; */
     background-color: #f6f6f6;
+    /*min-width: 230px;*/
     overflow: auto;
-    border: 1px solid #ddd;
-    z-index: 1;
 }
 
 /* placeholder code */
@@ -262,6 +300,7 @@ html, body {
     background-repeat: no-repeat;
     width: 220px;
     font-size: 16px;
+    color: black;
     padding: 5px;
     border: none;
     border-bottom: 1px solid #ddd;
@@ -278,8 +317,8 @@ html, body {
 }
 .dropdown_container span:hover, .hovered_span {background-color: #ddd;}
 #symptoms_search {
-    position: absolute;
-    left: 57%;
+    /* position: absolute;
+    left: 57%; */
     background-color: #04AA6D;
     color: white;
     padding: 5px 16px 5px 16px;
@@ -298,8 +337,11 @@ html, body {
 }
 
 .symptom_card {
+    /*height: 245px;*/
     background-color: #ffd1a6;
     padding: 5px;
+    font-size: 0.5em;
+    /*overflow: scroll;*/
 }
 
 .symptom_card .disease_card {
@@ -358,6 +400,35 @@ span.inactive:hover {
     cursor: pointer;
 }
 
+
+/* doctor main page */
+#message_card_list{
+    margin: 30px 25%;
+    height: 100px;
+}
+
+.doctor_main_buttons{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* resident main page */
+
+.res_main_content{
+    margin-top: 40px;
+    text-align: center;
+    width: 300;
+    height: 100px;
+    font-size: 2.2em;
+}
+
+.res_main_container{
+    display: flex;
+    justify-content: space-between;
+    font-size: 2.2rem;
+}
+
 .floating_window_list {
     position: fixed;
     top: 10%;
@@ -368,7 +439,7 @@ span.inactive:hover {
 
 .floating_window {
     margin: 0 0 5px 5px;
-    height: 60px;
+    min_height: 60px;
     left: 250px;
 }
 
@@ -405,4 +476,46 @@ span.inactive:hover {
     vertical-align: middle;
     border-radius: 50%;
     background-color: #999999;
+}
+
+.fixed_on_top {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.alarm_message {
+    background: #be0000;
+    color: white;
+}
+
+.floating_background {
+    z-index: 990;
+    position: absolute;
+    background-color: black;
+    opacity: .5;
+    min-height: 100vh;
+    min-width: 100vw;
+    backdrop-filter: blur(10px);
+}
+
+.floating_map {
+    z-index: 1000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 5vh 5vw 5vw 5vh;
+    width: 90vw;
+    min-width: 90vw;
+    height: 90vh;
+    min-height: 90vh;
+    box-shadow: 0 0 5vh black;
+}
+
+.text-below-marker {
+    min-width: 100px;
+    left: -50px;
+    text-align: center;
+    min-height: 1.2em;
+    border: 1px solid red;
 }

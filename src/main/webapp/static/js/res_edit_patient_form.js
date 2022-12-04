@@ -57,11 +57,34 @@ $(document).ready(function () {
         url: "/FamilyHistoryFormDAOServlet?item=getFamilyHistoryFormList&resident_id=" + resident_id,
         dataType: "html",
         success: function (resp) {
-            console.log(resp);
+            // console.log(resp);
             let json = JSON.parse(resp);
             cur_family_form_num = json.length;
             for (let i = 0; i < cur_family_form_num; i++) {
-                $(create_family_history_form_content(i, json[i])).appendTo(familyMemberFormList);
+                let content = $(create_family_history_form_content(i, json[i])).appendTo(familyMemberFormList);
+                // console.log("is_deceased: " + content.find("#is_deceased" + i).find(":selected").val());
+                if (content.find("#is_deceased" + i).find(":selected").val() === "false") {
+                    content.find("#death_age" + i).prop('disabled',true);
+                    content.find("#death_cause" + i).prop('disabled',true);
+                    content.find("#death_age" + i).val("");
+                    content.find("#death_cause" + i).val("");
+                }
+
+                content.find("#is_deceased" + i).on("change", function () {
+                    // console.log(this.value);
+                    if (this.value === "false") {
+                        content.find("#death_age" + i).val("");
+                        content.find("#death_age" + i).prop('disabled',true);
+                        content.find("#death_cause" + i).val("");
+                        content.find("#death_cause" + i).prop('disabled',true);
+                    } else {
+                        content.find("#death_age" + i).prop("disabled", false);
+                        content.find("#death_cause" + i).prop("disabled", false);
+                        content.find("#death_age" + i).val(content.find("#family_member_age" + i).val());
+                        content.find("#death_cause" + i).val("natural death");
+                    }
+                })
+
             }
         },
         async: false
@@ -69,7 +92,11 @@ $(document).ready(function () {
 
     // family history form
     $("#add_family_history_form_button").on("click", function () {
-        $(create_family_history_form(cur_family_form_num)).appendTo(familyMemberFormList);
+        let content = $(create_family_history_form(cur_family_form_num)).appendTo(familyMemberFormList);
+        content.find("#death_age" + cur_family_form_num).prop('disabled',true);
+        content.find("#death_cause" + cur_family_form_num).prop('disabled',true);
+        content.find("#death_age" + cur_family_form_num).val("");
+        content.find("#death_cause" + cur_family_form_num).val("");
         cur_family_form_num++;
     });
 

@@ -9,20 +9,20 @@ import java.util.List;
 public class AppointmentDAOImpl extends BaseDAO implements AppointmentDAO {
     @Override
     public void insert(Appointment appointment) {
-        String sql = "insert into appointments (resident_id, doctor_id, date, hour, min, status) values " +
-                                              "(?,           ?,         ?,    ?,    ?,   ?)";
+        String sql = "insert into appointments (resident_id, doctor_id, date, hour, min, status, reason) values " +
+                                              "(?,           ?,         ?,    ?,    ?,   ?,      ?)";
         update(sql, appointment.getResident_id(), appointment.getDoctor_id(),
-                appointment.getDate(), appointment.getHour(), appointment.getMin(), appointment.getStatus());
+                appointment.getDate(), appointment.getHour(), appointment.getMin(), appointment.getStatus(), appointment.getReason());
     }
 
     @Override
     public void update(Appointment appointment) {
         String sql = "update appointments set " +
-                "resident_id=?, doctor_id=?, date=?, hour=?, min=?, status=? where " +
+                "resident_id=?, doctor_id=?, date=?, hour=?, min=?, status=?, reason=? where " +
                 "id=?";
         update(sql, appointment.getResident_id(), appointment.getDoctor_id(),
                 appointment.getDate(), appointment.getHour(), appointment.getMin(),
-                appointment.getStatus(), appointment.getId());
+                appointment.getStatus(), appointment.getReason(), appointment.getId());
     }
 
     @Override
@@ -63,7 +63,7 @@ public class AppointmentDAOImpl extends BaseDAO implements AppointmentDAO {
 
     @Override
     public List<Appointment> getAppointmentListByResidentAndDoctor(int resident_id, int doctor_id) {
-        String sql = "select * where resident_id=? and doctor_id=?";
+        String sql = "select * from appointments where resident_id=? and doctor_id=? order by date desc limit 5";
         return getInstanceList(Appointment.class, sql, resident_id, doctor_id);
     }
 }

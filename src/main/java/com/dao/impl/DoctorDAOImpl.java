@@ -15,8 +15,8 @@ public class DoctorDAOImpl extends BaseDAO implements DoctorDAO {
     @Override
     public void insert(Doctor doctor) {
         String sql = "insert into doctors " +
-                "(username, password, firstname, lastname, address, latitude, longitude, tel, hospital_id, specialty1_id, specialty2_id, specialty3_id, specialty4_id, specialty5_id) values " +
-                "(?,        ?,        ?,         ?,        ?,       ?,        ?,         ?,   ?,           ?,             ?,             ?,             ?,             ?)";
+                "(username, password, firstname, lastname, address, latitude, longitude, tel, hospital_id) values " +
+                "(?,        ?,        ?,         ?,        ?,       ?,        ?,         ?,   ?          )";
         update(sql, doctor.getUsername(), doctor.getPassword(), doctor.getFirstname(), doctor.getLastname(),
                 doctor.getAddress(), doctor.getLatitude(), doctor.getLongitude(), doctor.getTel(), doctor.getHospital_id());
     }

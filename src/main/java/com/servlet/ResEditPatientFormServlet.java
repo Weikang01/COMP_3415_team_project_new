@@ -59,13 +59,17 @@ public class ResEditPatientFormServlet extends ViewBaseServlet {
                 familyHistoryForm.setAge(Integer.parseInt(req.getParameter("family_member_age" + idx)));
                 familyHistoryForm.setHealth_condition(req.getParameter("family_member_health_condition" + idx));
                 familyHistoryForm.setIs_deceased(Boolean.parseBoolean(req.getParameter("is_deceased" + idx)));
-                familyHistoryForm.setDeath_age(Integer.parseInt(req.getParameter("death_age" + idx)));
-                familyHistoryForm.setDeath_cause(req.getParameter("death_cause"+idx));
+                if (Boolean.parseBoolean(req.getParameter("is_deceased" + idx))) {
+                    familyHistoryForm.setDeath_age(Integer.parseInt(req.getParameter("death_age" + idx)));
+                    familyHistoryForm.setDeath_cause(req.getParameter("death_cause"+idx));
+                }
                 familyHistoryFormDAO.createNewFamilyHistoryForm(familyHistoryForm);
 
                 idx++;
                 family_relationship = req.getParameter("family_relationship" + idx);
             }
+
+            resp.sendRedirect("/res.home");
         }
     }
 }

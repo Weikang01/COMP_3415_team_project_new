@@ -34,6 +34,15 @@ function message_from_another_user(user_firstName, user_lastName, user_message, 
 </div>`
 }
 
+function appointment_box(json) {
+    return `
+<div class="container darker">
+  <p class="message"><div>Doctor booked an appointment for you</div></p>
+  <div><b>Reason</b>: ${json.reason}</div>
+  <div><b>Appointment time</b>: ${json.hour}:${json.min} ${json.date}</div>
+</div>`
+}
+
 $(document).ready(function () {
     let chatList = $("#chat_list");
     let resident_id = getUrlParam("resident_id");
@@ -77,6 +86,7 @@ $(document).ready(function () {
     websocket.onmessage = function (event) {
         var dataStr = event.data;
         let dataJson = JSON.parse(dataStr);
+
         if (!dataJson.system) {
             let date = new Date;
 
@@ -93,7 +103,8 @@ $(document).ready(function () {
                     websocket.send(JSON.stringify(json));
                     health_request_element.html("You rejected from sending your health info to the doctor!");
                 });
-            } else {
+            }
+            else {
                 localStorage.setItem("", JSON.stringify({
                     "firstname": dataJson.firstname,
                     "lastname": dataJson.lastname,
@@ -109,8 +120,13 @@ $(document).ready(function () {
                 localStorage_addNewContactor(doctor_id, resident_id);
             }
         }
-
-
+        else {
+            if (dataJson.message === "make_appointment") {
+                if (dataJson.type === "new") {
+                    $(appointment_box(dataJson)).appendTo(chatList);
+                }
+            }
+        }
     }
 
     websocket.onclose = function () {

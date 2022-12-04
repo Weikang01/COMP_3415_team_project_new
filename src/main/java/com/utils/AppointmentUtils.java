@@ -48,7 +48,8 @@ public class AppointmentUtils {
             json.append("\"year\":").append(Integer.parseInt(result.substring(4))).append(",");
             json.append("\"hour\":").append(appointmentList.get(i).getHour()).append(",");
             json.append("\"min\":").append(appointmentList.get(i).getMin()).append(",");
-            json.append("\"status\":").append(appointmentList.get(i).getStatus());
+            json.append("\"status\":").append(appointmentList.get(i).getStatus()).append(",");
+            json.append("\"reason\":\"").append(appointmentList.get(i).getReason()).append("\"");
 
             json.append("}");
             if (i != appointmentList.size() - 1) {

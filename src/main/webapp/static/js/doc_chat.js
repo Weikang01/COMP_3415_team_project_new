@@ -89,6 +89,14 @@ function create_family_history_form_content(i, json) {
     `;
 }
 
+function create_appointment_content(i, json) {
+    return `
+<h5>Appointment ${i}</h5>
+    <div><b>Reason</b>: ${json.reason}</div>
+    <div>${json.hour}:${json.min} ${json.day}-${json.month}-${json.year}</div>
+    `
+}
+
 function empty_container(user_firstName, user_lastName) {
     return `
 <div class="container">
@@ -159,7 +167,7 @@ $(document).ready(function () {
                         url: "/FamilyHistoryFormDAOServlet?item=getFamilyHistoryFormList&resident_id=" + resident_id,
                         dataType: "html",
                         success: function (resp) {
-                            console.log(resp);
+                            // console.log(resp);
                             let json = JSON.parse(resp);
                             let cur_family_form_num = json.length;
                             for (let i = 0; i < cur_family_form_num; i++) {
@@ -168,8 +176,32 @@ $(document).ready(function () {
                         },
                         async:false
                     })
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/appointmentDAO?item=getAppointmentListByResidentAndDoctor2&resident_id=" + resident_id + "&doctor_id=" + doctor_id,
+                        dataType: "html",
+                        success: function (resp) {
+                            let json = JSON.parse(resp);
+                            let html = "<h4>Previous Appointments (Last 5)</h4>";
+                            if (json.length === 0) {
+                                html += "<div>No Appointment Record</div>"
+                            }
+                            for (let i = 0; i < json.length; i++) {
+                                html += create_appointment_content(i+1, json[i]);
+                            }
+                            $(html).appendTo(health_info);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr);
+                            console.log(ajaxOptions);
+                            console.log(thrownError);
+                        },
+                        async: false
+                    })
+
                 } else {
-                    $(resident_reject_health_request()).appendTo(chatList);
+                    $(resident_reject_health_request()).appendTo(health_info);
                 }
             } else {
                 let date = new Date();
@@ -196,18 +228,19 @@ $(document).ready(function () {
 
     $("#send_message").on("click", function (e) {
         let message = messageText.val();
-        chatList.append(message_from_current_user(message));
+        let date = new Date();
+
+        chatList.append(message_from_current_user(message, date.getHours(), date.getMinutes()));
         messageText.val("");
         let json = {"toId": resident_id, "toResident": true, "message": message};
 
-        let date = new Date();
         localStorage_setMessage(LOCALSTORAGE_TRUE, doctor_id, resident_id, null,
             null, message, date.getHours(), date.getMinutes());
         websocket.send(JSON.stringify(json));
     });
 
     $("#make_appointment").on("click", function (e) {
-        window.open('/make_appointment?resident_id='+ resident_id +'&doctor_id=' + doctor_id, '_blank', 'height=80, width=500, top=300, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+        window.open('/make_appointment?resident_id='+ resident_id +'&doctor_id=' + doctor_id, '_blank', 'height=800, width=500, top=300, left=300, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
     });
 
     $("#health_info").on("click", function (e) {
@@ -217,7 +250,7 @@ $(document).ready(function () {
         let date = new Date();
         websocket.send(JSON.stringify(json));
 
-        localStorage_setMessage(LOCALSTORAGE_TRUE, doctor_id, resident_id, null,
-            null, Request_For_Health_Info, date.getHours(), date.getMinutes());
+        // localStorage_setMessage(LOCALSTORAGE_TRUE, doctor_id, resident_id, null,
+        //     null, Request_For_Health_Info, date.getHours(), date.getMinutes());
     })
 })

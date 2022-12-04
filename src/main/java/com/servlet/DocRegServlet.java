@@ -45,6 +45,7 @@ public class DocRegServlet extends ViewBaseServlet {
         doctor.setHospital_id(Integer.parseInt(req.getParameter("hospital_id")));
 
         doctorDAO.insert(doctor);
+
         doctor = doctorDAO.getDoctorByUsername(doctor.getUsername());
 
         int[] specialty_ids = new int[]{

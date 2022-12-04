@@ -30,6 +30,7 @@ public class AppointmentServlet extends ViewBaseServlet {
         appointment.setMin(Integer.parseInt(req.getParameter("min")));
         appointment.setResident_id(Integer.parseInt(req.getParameter("resident_id")));
         appointment.setDoctor_id(Integer.parseInt(req.getParameter("doctor_id")));
+        appointment.setReason(req.getParameter("reason"));
 
         appointmentDAO.insert(appointment);
 

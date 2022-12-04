@@ -80,7 +80,9 @@ $(window).ready(function () {
     });
 
     submit_button.on("click", function () {
-        websocket.send(`{"type":"new", "date":"${$date.val()}", "hour":"${$("#hour").val()}", "min":"${$("#min").val()}"}`);
+        websocket.send(`{"type":"new", "date":"${$date.val()}", "hour":${$("#hour").val()}, 
+        "min":${$("#min").val()}, "reason": "${$("#reason").val()}", 
+        "doctor_id": ${$("#doctor_id").val()}, "resident_id": ${$("#resident_id").val()}}`);
         window.close();
     });
 })

@@ -8,6 +8,7 @@ $(document).ready(function () {
     let doctor_id = $("#doctor_id").val();
     let firstname = $("#firstname").val();
     let lastname = $("#lastname").val();
+    let floatingWindowList = $("#floating_window_list");
     let is_resident = (resident_id !== "0");
 
     var websocket;
@@ -27,7 +28,7 @@ $(document).ready(function () {
                 let $window = null;
                 switch (dataJson.type) {
                     case "new":
-                        msg = `You received a new appointment request in ${dataJson.date} ${dataJson.hour}:${dataJson.min}!`;
+                        msg = `You received a new appointment request for ${dataJson.reason} in ${dataJson.date} ${dataJson.hour}:${dataJson.min}`;
                         $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
                         break;
                     case "confirm":
@@ -35,7 +36,7 @@ $(document).ready(function () {
                         $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
                         break;
                     case "cancel":
-                        msg = `Appointment with Dr. ${dataJson.firstname} ${dataJson.lastname} in ${dataJson.date} ${dataJson.hour}:${dataJson.min} has been cancelled by doctor!`;
+                        msg = `Appointment with ${ is_resident? "Dr." : ""} ${dataJson.firstname} ${dataJson.lastname} for ${dataJson.reason} in ${dataJson.date} ${dataJson.hour}:${dataJson.min} has been cancelled by ${is_resident? "doctor":"patient"}!`;
                         $window = $(create_appointment_floating_message_window(msg)).prependTo(floatingWindowList);
                         break;
                 }
@@ -89,6 +90,9 @@ $(document).ready(function () {
     <div class="date_div">
       <span class="date_span">${val.day}/${val.month}/${val.year} ${val.hour}:${val.min}</span>
     </div>
+    <div class="reason_div">
+    <b>Reason: </b>${val.reason}
+</div>
     <div class="status_div">
       status: <span class="status_span status${val.status}" id="status${val.id}">${appointmentStatusList[val.status].name}</span>
     </div>
@@ -147,10 +151,11 @@ $(document).ready(function () {
                             websocket.send(
                                 `{
                                 "type":"cancel", "date":"${yyyy}-${mm}-${dd}",
-                                "hour":"${json[i].hour}","min":"${json[i].min}",
+                                "hour":${json[i].hour},"min":${json[i].min},
                                 "firstname": "${firstname}", "lastname":"${lastname}",
                                 "from_resident":"${resident_id !== 0}",
-                                "toId": "${resident_id === "0"? json[i].resident.id : json[i].doctor.id}"
+                                "reason": "${json[i].reason}",
+                                "toId": ${resident_id === "0"? json[i].resident.id : json[i].doctor.id}
                                 }`);
                             change_appointment_status(appointment_id, parseInt(name), cancel_status, "cancel");
                         });
@@ -177,10 +182,11 @@ $(document).ready(function () {
                             websocket.send(
                                 `{
                                 "type":"confirm", "date":"${yyyy}-${mm}-${dd}",
-                                "hour":"${json[i].hour}","min":"${json[i].min}",
+                                "hour":${json[i].hour},"min":${json[i].min},
                                 "firstname": "${firstname}", "lastname":"${lastname}",
-                                "from_resident":"${resident_id !== 0}",
-                                "toId": "${resident_id === "0"? json[i].resident.id : json[i].doctor.id}"
+                                "from_resident": ${resident_id !== 0},
+                                "reason": "${json[i].reason}",
+                                "toId": ${resident_id === "0"? json[i].resident.id : json[i].doctor.id}
                                 }`);
 
                             change_appointment_status(appointment_id, parseInt(name), confirmed_status, "confirm");

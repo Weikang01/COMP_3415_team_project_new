@@ -5,15 +5,15 @@ function create_family_history_form(i) {
                 <label for="family_relationship${i}">relationship: </label>
                 <input type="text" name="family_relationship${i}" id="family_relationship${i}">
                 
-                <label for="family_member_age${i}">Age:
+                <label for="family_member_age${i}">Age: </label>
                 <input type="text" name="family_member_age${i}" id="family_member_age${i}">
                 
                 <label for="family_member_health_condition${i}">Health conditions: </label>
                 <input type="text" name="family_member_health_condition${i}" id="family_member_health_condition${i}">
                 
-                <label for="is_deceased${i}">if deceased:
+                <label for="is_deceased${i}">if deceased: </label>
               <select id="is_deceased${i}" name="is_deceased${i}" style="width: 30%">
-                <option value="false">No</option>
+                <option value="false" selected>No</option>
                 <option value="true">Yes</option>
               </select>
                 
@@ -241,7 +241,27 @@ $(document).ready(function () {
     let cur_family_form_num = 0;
 
     $("#add_family_history_form_button").on("click", function () {
-        $(create_family_history_form(cur_family_form_num)).appendTo(familyMemberFormList);
+        let content = $(create_family_history_form(cur_family_form_num)).appendTo(familyMemberFormList);
+        content.find("#death_age" + cur_family_form_num).prop('disabled',true);
+        content.find("#death_cause" + cur_family_form_num).prop('disabled',true);
+        content.find("#death_age" + cur_family_form_num).val("");
+        content.find("#death_cause" + cur_family_form_num).val("");
+
+        let id = cur_family_form_num;
+        content.find("#is_deceased" + cur_family_form_num).on("change", function () {
+            if (this.value === "false") {
+                content.find("#death_age" + id).val("");
+                content.find("#death_age" + id).prop('disabled',true);
+                content.find("#death_cause" + id).val("");
+                content.find("#death_cause" + id).prop('disabled',true);
+            } else {
+                content.find("#death_age" + id).prop("disabled", false);
+                content.find("#death_cause" + id).prop("disabled", false);
+                content.find("#death_age" + id).val(content.find("#family_member_age" + id).val());
+                content.find("#death_cause" + id).val("natural death");
+            }
+        });
+
         cur_family_form_num++;
     });
 
